@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Ok Taxi</string>
+    //string main activity
+    <string name="btn_init">Home</string>
+    //string home
+    <string name="btn_info_product1">Info</string>
+    <string name="btn_info_product2">Info</string>
+    <string name="btn_info_product3">Info</string>
+    <string name="text_product1">Bogotá</string>
+    <string name="text_product2">Medellín</string>
+    <string name="text_product3">Cali</string>
+    <string name="btn_text_home">Home</string>
+    //string product
+    <string name="btn_info_product">Volver</string>
+
+
+</resources>
