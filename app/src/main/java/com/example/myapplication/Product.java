@@ -14,6 +14,8 @@ public class Product extends AppCompatActivity {
     private Button btnProductInfo;
     private TextView textProductTitle, textProductDes;
     private ImageView imgProduct;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -3,17 +3,23 @@ package com.example.myapplication;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.Menu;
 import android.widget.ListView;
+import android.widget.Toast;
 
 
 import com.example.myapplication.Adapters.ProductAdapter;
+import com.example.myapplication.DB.DBHelper;
 import com.example.myapplication.Entities.Producto;
+import com.example.myapplication.Services.ProductService;
 
 import java.util.ArrayList;
 
 public class Home extends AppCompatActivity {
+    private DBHelper dbHelper;
+    private ProductService productService;
     private ListView listViewProducts;
     private ArrayList<Producto> arrayProducts;
     private ProductAdapter productAdapter;
@@ -23,16 +29,27 @@ public class Home extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        arrayProducts =  new ArrayList<>();
+
+        try {
+            dbHelper = new DBHelper(this);
+            //byte[] img = "".getBytes();
+            //dbHelper.insertData("bogotá", "ciudad bonita", img);
+            //dbHelper.insertData("Medellín", "ciudad montañosa pero cool", img);
+            //dbHelper.insertData("Cali", "ciudad parcera", img);
+
+
+            productService = new ProductService();
+            Cursor cursor = dbHelper.getData();
+            arrayProducts = productService.cursorToArray(cursor);
+            Toast.makeText(this, "insert OK", Toast.LENGTH_SHORT).show();
+        }catch (Exception e){
+            Toast.makeText(this, "Error lectura DB", Toast.LENGTH_SHORT).show();
+        }
+
         setContentView(R.layout.activity_home);
 
-        /*Producto producto1 = new Producto("fdfdf","fdfdfd");
-        Producto producto2 = new Producto("fffdfdf","fdfwedfd");
-        Producto producto3 = new Producto("fdfefdf","fdfdfeed");
-        arrayProductos.add(producto1);
-        arrayProductos.add(producto2);
-        arrayProductos.add(producto3);*/
 
-        arrayProducts =  new ArrayList<>();
         Producto bogota = new Producto("Bogotá", "capital de Colombia", R.drawable.bog );
         Producto medellin = new Producto("Medellín", "ciudad de montañas", R.drawable.med );
         Producto cali = new Producto("Cali", "bellas mujeres", R.drawable.cali );
