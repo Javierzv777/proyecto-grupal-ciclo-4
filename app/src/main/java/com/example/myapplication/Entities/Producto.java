@@ -4,9 +4,9 @@ public class Producto {
 
     String name;
     String description;
-    int image;
+    byte[] image;
 
-    public Producto(String name, String descripcion, int image) {
+    public Producto(String name, String descripcion, byte[] image) {
         this.name = name;
         this.description = descripcion;
         this.image = image;
@@ -28,11 +28,11 @@ public class Producto {
         this.description = description;
     }
 
-    public int getImage() {
+    public byte[] getImage() {
         return image;
     }
 
-    public void setImage(int image) {
+    public void setImage(byte[] image) {
         this.image = image;
     }
 }

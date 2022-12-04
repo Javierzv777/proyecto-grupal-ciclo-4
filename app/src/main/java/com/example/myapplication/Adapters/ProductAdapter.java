@@ -2,6 +2,8 @@ package com.example.myapplication.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,7 +57,9 @@ public class ProductAdapter extends BaseAdapter {
         TextView textViewNam = (TextView) v.findViewById(R.id.textProductTitle);
         TextView textViewDes = (TextView) v.findViewById(R.id.textProductDes);
 
-        imgProduct.setImageResource(producto.getImage());
+        byte[] image = producto.getImage();
+        Bitmap bitmap = BitmapFactory.decodeByteArray(image, 0,image.length);
+        imgProduct.setImageBitmap(bitmap);
         textViewNam.setText(producto.getName());
         textViewDes.setText(producto.getDescription());
 

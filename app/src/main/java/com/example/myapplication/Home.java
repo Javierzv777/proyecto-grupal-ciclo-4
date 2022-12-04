@@ -1,11 +1,14 @@
 package com.example.myapplication;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -50,12 +53,12 @@ public class Home extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
 
-        Producto bogota = new Producto("Bogotá", "capital de Colombia", R.drawable.bog );
-        Producto medellin = new Producto("Medellín", "ciudad de montañas", R.drawable.med );
-        Producto cali = new Producto("Cali", "bellas mujeres", R.drawable.cali );
-        arrayProducts.add(bogota);
-        arrayProducts.add(medellin);
-        arrayProducts.add(cali);
+        //Producto bogota = new Producto("Bogotá", "capital de Colombia", R.drawable.bog );
+        //Producto medellin = new Producto("Medellín", "ciudad de montañas", R.drawable.med );
+        //Producto cali = new Producto("Cali", "bellas mujeres", R.drawable.cali );
+        //arrayProducts.add(bogota);
+        //arrayProducts.add(medellin);
+        //arrayProducts.add(cali);
 
         productAdapter = new ProductAdapter(   getApplicationContext(), arrayProducts);
         listViewProducts = (ListView) findViewById(R.id.listViewProduct);
@@ -68,4 +71,17 @@ public class Home extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.actionAdd:
+                Intent intent = new Intent(getApplicationContext(), FormActivity.class);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+
+        }
+
+    }
 }
