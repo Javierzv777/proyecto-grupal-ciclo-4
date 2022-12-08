@@ -67,9 +67,7 @@ public class ProductAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, Product.class);
-                intent.putExtra("title", producto.getName());
-                intent.putExtra("description", producto.getDescription());
-                intent.putExtra("imageCode", R.drawable.bog);
+                intent.putExtra("id", String.valueOf(producto.getId()));
                 Toast.makeText(context, "Presionado"+producto.getName(), Toast.LENGTH_SHORT).show();
                 context.startActivity(intent);
             }

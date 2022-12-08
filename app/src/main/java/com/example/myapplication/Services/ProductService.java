@@ -2,6 +2,7 @@ package com.example.myapplication.Services;
 
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
@@ -19,13 +20,13 @@ public class ProductService {
             return list;
         }else {
             while (cursor.moveToNext()) {
-            Producto product = new Producto(cursor.getString(1),
+            Producto product = new Producto(
+                    cursor.getInt(0),
+                    cursor.getString(1),
                     cursor.getString(2),
                     cursor.getBlob(3));
                 list.add(product);
             }
-
-
         }
         return list;
     }
@@ -36,6 +37,12 @@ public class ProductService {
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
         byte[] byteArray = stream.toByteArray();
         return byteArray;
+    }
+
+    public Bitmap byteToBitmap(byte[] image) {
+
+        Bitmap bitmap = BitmapFactory.decodeByteArray(image, 0,image.length);
+        return bitmap;
     }
 
 }

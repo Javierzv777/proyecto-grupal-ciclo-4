@@ -10,7 +10,15 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.myapplication.DB.DBHelper;
+import com.example.myapplication.Entities.Producto;
+import com.example.myapplication.Services.ProductService;
+
+import java.util.ArrayList;
+
 public class Product extends AppCompatActivity {
+    private DBHelper dbHelper;
+    private ProductService productService;
     private Button btnProductInfo;
     private TextView textProductTitle, textProductDes;
     private ImageView imgProduct;
@@ -24,12 +32,17 @@ public class Product extends AppCompatActivity {
         textProductTitle = (TextView) findViewById(R.id.textProductTitle);
         textProductDes = (TextView) findViewById(R.id.textProductDes);
         imgProduct = (ImageView) findViewById(R.id.imgProduct);
+        dbHelper = new DBHelper(this);
+        productService = new ProductService();
 
         Intent intentIn = getIntent();
-        textProductTitle.setText(intentIn.getStringExtra("title"));
-        textProductDes.setText(intentIn.getStringExtra("description"));
-        int codeImage = intentIn.getIntExtra("imageCode",0);
-        imgProduct.setImageResource(codeImage);
+        String id = intentIn.getStringExtra("id");
+        ArrayList<Producto> list = productService.cursorToArray(dbHelper.getDataById(id));
+        Producto product = list.get(0);
+
+        textProductTitle.setText(product.getName());
+        textProductDes.setText(product.getDescription()); 
+        imgProduct.setImageBitmap(productService.byteToBitmap(product.getImage()));
 
         btnProductInfo.setOnClickListener(new View.OnClickListener() {
             @Override
