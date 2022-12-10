@@ -6,6 +6,8 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.example.myapplication.Adapters.ProductAdapter;
+import com.example.myapplication.Entities.Producto;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -15,6 +17,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,11 +27,11 @@ public class DBFirebase {
     public DBFirebase() {
         this.db = FirebaseFirestore.getInstance();
     }
-    public void insertData(String name, String description, byte[] image){
+    public void insertData(Producto producto){
         // Create a new user with a first and last name
         Map<String, Object> product = new HashMap<>();
-        product.put("name", name);
-        product.put("description", description);
+        product.put("name", producto.getName());
+        product.put("description", producto.getDescription());
         // Add a new document with a generated ID
         db.collection("products")
                 .add(product)
@@ -46,7 +49,7 @@ public class DBFirebase {
                 });
     }
 
-    public void getData(){
+    public void getData(ProductAdapter productAdapter, ArrayList<Producto> list){
         db.collection("products")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -55,10 +58,76 @@ public class DBFirebase {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
+                                Producto product = new Producto(
+                                        document.getData().get("name").toString(),
+                                        document.getData().get("description").toString()
+                                );
+                                list.add(product);
                             }
+                            productAdapter.notifyDataSetChanged();
                         } else {
                             Log.w(TAG, "Error getting documents.", task.getException());
                         }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+    }
+
+    public Producto getDataById(String id){
+        final Producto[] product = {null};
+        db.collection("products")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, document.getId() + "=>" + document.getData());
+                                if(document.getData().get("id").toString().compareTo(id) == 0) {
+                                    product[0] = new Producto(
+                                            document.getData().get("name").toString(),
+                                            document.getData().get("description").toString()
+
+                                    );
+                                }
+                            }
+                        }
+                    }
+                });
+        return product[0];
+    }
+
+    public void deletDataById(String id) {
+        db.collection("products")
+                .document(id)
+                .delete()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+
+                    }
+                });
+    }
+
+    public void updateDataById(String id, String name, String description, byte[] image) {
+        db.collection("products")
+                .document(id)
+                .update("name",name, "description", description)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
                     }
                 });
     }

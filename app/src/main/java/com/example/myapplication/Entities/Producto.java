@@ -1,24 +1,44 @@
 package com.example.myapplication.Entities;
 
+import java.nio.charset.StandardCharsets;
+import java.util.UUID;
+
 public class Producto {
-    private int id;
+    private String id;
     private String name;
     private String description;
     private byte[] image;
 
-    public Producto(int id,String name, String descripcion, byte[] image) {
+    public Producto(String name, String descripcion, byte[] image) {
+        this.id = UUID.randomUUID().toString();
+        this.name = name;
+        this.description = descripcion;
+        this.image = image;
+    }
+
+    public Producto(String id, String name, String descripcion, byte[] image) {
         this.id = id;
         this.name = name;
         this.description = descripcion;
         this.image = image;
     }
 
-    public int getId() {
-        return id;
+
+
+
+    public Producto (String name, String description) {
+        this.id = UUID.randomUUID().toString();
+        this.name = name;
+        this.description = description;
+        this.image = "".getBytes();
+    }
+
+    public String getId() {
+        return this.id;
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setName(String name) {
@@ -26,7 +46,7 @@ public class Producto {
     }
 
     public String getDescription() {
-        return description;
+        return this.description;
     }
 
     public void setDescription(String description) {
@@ -34,7 +54,7 @@ public class Producto {
     }
 
     public byte[] getImage() {
-        return image;
+        return this.image;
     }
 
     public void setImage(byte[] image) {

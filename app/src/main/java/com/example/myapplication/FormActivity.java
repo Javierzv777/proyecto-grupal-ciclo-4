@@ -74,12 +74,13 @@ public class FormActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 try {
-                     //dbHelper.insertData(
-                    dbFirebase.insertData(
+                    Producto product = new Producto(
                             editFormName.getText().toString(),
                             editFormDescription.getText().toString(),
-                            productService.imageviewToByte(formImage)
-                    );
+                            productService.imageviewToByte(formImage));
+                    dbFirebase.insertData(product);
+                     dbHelper.insertData(product);
+
                     //
                 }catch (Exception e){
                     Log.e("DB Insert", e.toString());
@@ -98,6 +99,8 @@ public class FormActivity extends AppCompatActivity {
                 String id = editIdFormProduct.getText().toString().trim();
                 if(id.compareTo("") != 0) {
                     ArrayList<Producto> list = productService.cursorToArray(dbHelper.getDataById(id));
+
+                    list.add(dbFirebase.getDataById(id));
 
                     if(list.size() != 0){
                         Producto product = list.get(0);

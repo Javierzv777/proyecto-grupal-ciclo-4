@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 
 
 import com.example.myapplication.Adapters.ProductAdapter;
+import com.example.myapplication.DB.DBFirebase;
 import com.example.myapplication.DB.DBHelper;
 import com.example.myapplication.Entities.Producto;
 import com.example.myapplication.Services.ProductService;
@@ -22,6 +24,7 @@ import java.util.ArrayList;
 
 public class Home extends AppCompatActivity {
     private DBHelper dbHelper;
+    private DBFirebase dbFirebase;
     private ProductService productService;
     private ListView listViewProducts;
     private ArrayList<Producto> arrayProducts;
@@ -36,10 +39,7 @@ public class Home extends AppCompatActivity {
 
         try {
             dbHelper = new DBHelper(this);
-            //byte[] img = "".getBytes();
-            //dbHelper.insertData("bogotá", "ciudad bonita", img);
-            //dbHelper.insertData("Medellín", "ciudad montañosa pero cool", img);
-            //dbHelper.insertData("Cali", "ciudad parcera", img);
+            dbFirebase = new DBFirebase();
 
 
             productService = new ProductService();
@@ -53,16 +53,19 @@ public class Home extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
 
-        //Producto bogota = new Producto("Bogotá", "capital de Colombia", R.drawable.bog );
-        //Producto medellin = new Producto("Medellín", "ciudad de montañas", R.drawable.med );
-        //Producto cali = new Producto("Cali", "bellas mujeres", R.drawable.cali );
-        //arrayProducts.add(bogota);
-        //arrayProducts.add(medellin);
-        //arrayProducts.add(cali);
 
-        productAdapter = new ProductAdapter(   getApplicationContext(), arrayProducts);
+
+        productAdapter = new ProductAdapter(getApplicationContext(), arrayProducts);
         listViewProducts = (ListView) findViewById(R.id.listViewProduct);
         listViewProducts.setAdapter(productAdapter);
+       try{
+           dbFirebase.getData(productAdapter, arrayProducts);
+
+       }catch (Exception e){
+          Log.e("Error grave", e.getMessage());
+       }
+
+
     }
 
     @Override
