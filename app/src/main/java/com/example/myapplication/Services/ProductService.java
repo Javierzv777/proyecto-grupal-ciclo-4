@@ -21,10 +21,10 @@ public class ProductService {
         }else {
             while (cursor.moveToNext()) {
             Producto product = new Producto(
-
                     cursor.getString(1),
                     cursor.getString(2),
-                    cursor.getBlob(3));
+                    cursor.getString(3),
+                    cursor.getBlob(4));
 
                 list.add(product);
             }

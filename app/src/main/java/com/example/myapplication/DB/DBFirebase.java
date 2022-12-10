@@ -30,6 +30,7 @@ public class DBFirebase {
     public void insertData(Producto producto){
         // Create a new user with a first and last name
         Map<String, Object> product = new HashMap<>();
+        product.put("id", producto.getId());
         product.put("name", producto.getName());
         product.put("description", producto.getDescription());
         // Add a new document with a generated ID
