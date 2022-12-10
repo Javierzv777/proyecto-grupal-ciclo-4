@@ -59,7 +59,8 @@ public class Home extends AppCompatActivity {
         listViewProducts = (ListView) findViewById(R.id.listViewProduct);
         listViewProducts.setAdapter(productAdapter);
        try{
-           dbFirebase.getData(productAdapter, arrayProducts);
+
+           //dbFirebase.getData(productAdapter, arrayProducts);
 
        }catch (Exception e){
           Log.e("Error grave", e.getMessage());
