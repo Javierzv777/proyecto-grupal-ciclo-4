@@ -45,9 +45,8 @@ public class DBHelper extends SQLiteOpenHelper {
         statement.bindString(3,product.getDescription());
         statement.bindString(4, product.getImage());
         statement.bindString(5,String.valueOf(product.isDelete()));
-        statement.bindString(6,product.getCreatedAt().toString());
-        statement.bindString(7, product.getUpdatedAt().toString());
-
+        statement.bindString(6,String.valueOf(product.getCreatedAt()));
+        statement.bindString(7, String.valueOf(product.getUpdatedAt()));
 
         statement.executeInsert();
     }

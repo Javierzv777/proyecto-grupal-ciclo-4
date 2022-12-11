@@ -60,6 +60,48 @@ public class DBFirebase {
                 });
     }
 
+    public void syncData(ProductAdapter productAdapter, ArrayList<Producto> list, DBHelper dbHelper){
+
+        db.collection("products")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                if(!Boolean.valueOf(document.getData().get("deleted").toString())){
+                                    Log.d(TAG, document.getId() + " => " + document.getData());
+                                    Producto product = null;
+                                    product = new Producto(
+                                            document.getData().get("id").toString(),
+                                            document.getData().get("name").toString(),
+                                            document.getData().get("description").toString(),
+                                            document.getData().get("image").toString(),
+                                            Boolean.valueOf(document.getData().get("deleted").toString()),
+                                            productService.stringToDate(document.getData().get("createdAt").toString()),
+                                            productService.stringToDate(document.getData().get("updatedAt").toString())
+
+                                    );
+                                    dbHelper.insertData(product);
+                                    list.add(product);
+                                }
+
+                            }
+                            productAdapter.notifyDataSetChanged();
+                        } else {
+                            Log.w(TAG, "Error getting documents.", task.getException());
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+    }
+
     public void getData(ProductAdapter productAdapter, ArrayList<Producto> list){
         db.collection("products")
                 .get()

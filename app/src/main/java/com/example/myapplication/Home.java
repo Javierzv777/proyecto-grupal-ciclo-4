@@ -45,7 +45,7 @@ public class Home extends AppCompatActivity {
             productService = new ProductService();
             Cursor cursor = dbHelper.getData();
             arrayProducts = productService.cursorToArray(cursor);
-            Toast.makeText(this, "insert OK", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "lectura OK", Toast.LENGTH_SHORT).show();
         }catch (Exception e){
             Toast.makeText(this, "Error lectura DB", Toast.LENGTH_SHORT).show();
         }
@@ -58,8 +58,12 @@ public class Home extends AppCompatActivity {
         productAdapter = new ProductAdapter(getApplicationContext(), arrayProducts);
         listViewProducts = (ListView) findViewById(R.id.listViewProduct);
         listViewProducts.setAdapter(productAdapter);
-       try{
 
+
+       try{
+           if(arrayProducts.size()==0){
+               dbFirebase.syncData(productAdapter, arrayProducts, dbHelper);
+           }
            dbFirebase.getData(productAdapter, arrayProducts);
 
        }catch (Exception e){
