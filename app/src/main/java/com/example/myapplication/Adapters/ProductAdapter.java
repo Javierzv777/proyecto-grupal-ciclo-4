@@ -57,9 +57,9 @@ public class ProductAdapter extends BaseAdapter {
         TextView textViewNam = (TextView) v.findViewById(R.id.textProductTitle);
         TextView textViewDes = (TextView) v.findViewById(R.id.textProductDes);
 
-        byte[] image = producto.getImage();
-        Bitmap bitmap = BitmapFactory.decodeByteArray(image, 0,image.length);
-        imgProduct.setImageBitmap(bitmap);
+        //byte[] image = producto.getImage();
+        //Bitmap bitmap = BitmapFactory.decodeByteArray(image, 0,image.length);
+       // imgProduct.setImageBitmap(bitmap);
         textViewNam.setText(producto.getName());
         textViewDes.setText(producto.getDescription());
 

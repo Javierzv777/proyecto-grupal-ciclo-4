@@ -4,13 +4,14 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
 
 import com.example.myapplication.Entities.Producto;
-import com.example.myapplication.R;
 
 import java.io.ByteArrayOutputStream;
+import java.util.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class ProductService {
@@ -24,7 +25,11 @@ public class ProductService {
                     cursor.getString(1),
                     cursor.getString(2),
                     cursor.getString(3),
-                    cursor.getBlob(4));
+                    cursor.getString(4),
+                    Boolean.valueOf(cursor.getString(5)),
+                    stringToDate(cursor.getString(6)),
+                    stringToDate(cursor.getString(7))
+                );
 
                 list.add(product);
             }
@@ -44,6 +49,16 @@ public class ProductService {
 
         Bitmap bitmap = BitmapFactory.decodeByteArray(image, 0,image.length);
         return bitmap;
+    }
+
+    public Date stringToDate (String date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            return  dateFormat.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

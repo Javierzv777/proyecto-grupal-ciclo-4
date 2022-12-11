@@ -42,7 +42,7 @@ public class Product extends AppCompatActivity {
 
         textProductTitle.setText(product.getName());
         textProductDes.setText(product.getDescription()); 
-        imgProduct.setImageBitmap(productService.byteToBitmap(product.getImage()));
+        //imgProduct.setImageBitmap(productService.byteToBitmap(product.getImage()));
 
         btnProductInfo.setOnClickListener(new View.OnClickListener() {
             @Override

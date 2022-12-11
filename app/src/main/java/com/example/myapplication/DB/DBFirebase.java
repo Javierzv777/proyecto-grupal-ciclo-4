@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 
 import com.example.myapplication.Adapters.ProductAdapter;
 import com.example.myapplication.Entities.Producto;
+import com.example.myapplication.Services.ProductService;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -17,15 +18,20 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import org.w3c.dom.ls.LSParser;
+
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class DBFirebase {
     private FirebaseFirestore db;
+    private ProductService productService;
 
     public DBFirebase() {
         this.db = FirebaseFirestore.getInstance();
+        this.productService = new ProductService();
     }
     public void insertData(Producto producto){
         // Create a new user with a first and last name
@@ -33,6 +39,10 @@ public class DBFirebase {
         product.put("id", producto.getId());
         product.put("name", producto.getName());
         product.put("description", producto.getDescription());
+        product.put("image", producto.getImage());
+        product.put("deleted", producto.isDelete());
+        product.put("createdAt", producto.getCreatedAt());
+        product.put("updatedAt", producto.getUpdatedAt());
         // Add a new document with a generated ID
         db.collection("products")
                 .add(product)
@@ -57,13 +67,24 @@ public class DBFirebase {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
+
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                                Producto product = new Producto(
-                                        document.getData().get("name").toString(),
-                                        document.getData().get("description").toString()
-                                );
-                                list.add(product);
+                                if(!Boolean.valueOf(document.getData().get("deleted").toString())){
+                                    Log.d(TAG, document.getId() + " => " + document.getData());
+                                    Producto product;
+                                    product = new Producto(
+                                            document.getData().get("id").toString(),
+                                            document.getData().get("name").toString(),
+                                            document.getData().get("description").toString(),
+                                            document.getData().get("image").toString(),
+                                            Boolean.valueOf(document.getData().get("deleted").toString()),
+                                            productService.stringToDate(document.getData().get("createdAt").toString()),
+                                            productService.stringToDate(document.getData().get("updatedAt").toString())
+
+                                    );
+                                    list.add(product);
+                                }
+
                             }
                             productAdapter.notifyDataSetChanged();
                         } else {
@@ -91,10 +112,14 @@ public class DBFirebase {
                                 Log.d(TAG, document.getId() + "=>" + document.getData());
                                 if(document.getData().get("id").toString().compareTo(id) == 0) {
                                     product[0] = new Producto(
+                                            document.getData().get("id").toString(),
                                             document.getData().get("name").toString(),
-                                            document.getData().get("description").toString()
-
-                                    );
+                                            document.getData().get("description").toString(),
+                                            document.getData().get("image").toString(),
+                                            Boolean.valueOf(document.getData().get("deleted").toString()),
+                                            productService.stringToDate(document.getData().get("createdAt").toString()),
+                                            productService.stringToDate(document.getData().get("updatedAt").toString())
+                                            );
                                 }
                             }
                         }

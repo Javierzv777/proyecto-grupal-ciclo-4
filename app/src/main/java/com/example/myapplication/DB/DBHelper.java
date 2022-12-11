@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteStatement;
-import android.util.Log;
 
 import com.example.myapplication.Entities.Producto;
 
@@ -24,7 +23,10 @@ public class DBHelper extends SQLiteOpenHelper {
                 "uuid VARCHAR(200), "+
                 "name VARCHAR, " +
                 "description VARCHAR," +
-                "img BLOB" +
+                "img TEXT," +
+                "deleted BOOLEAN, " +
+                "createdAt DATETIME," +
+                "updatedAt DATETIME" +
                 ")" );
     }
 
@@ -36,12 +38,16 @@ public class DBHelper extends SQLiteOpenHelper {
     //metodos crud
 
     public void insertData(Producto product) {
-        String sql = "INSERT INTO PRODUCTS VALUES (NULL, ?,?,?,?)";
+        String sql = "INSERT INTO PRODUCTS VALUES (NULL, ?,?,?,?,?,?,?)";
         SQLiteStatement statement = sqLiteDatabase.compileStatement(sql);
         statement.bindString(1,product.getId());
         statement.bindString(2,product.getName());
         statement.bindString(3,product.getDescription());
-        statement.bindBlob(4, product.getImage());
+        statement.bindString(4, product.getImage());
+        statement.bindString(5,String.valueOf(product.isDelete()));
+        statement.bindString(6,product.getCreatedAt().toString());
+        statement.bindString(7, product.getUpdatedAt().toString());
+
 
         statement.executeInsert();
     }

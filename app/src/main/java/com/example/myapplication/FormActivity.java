@@ -54,7 +54,7 @@ public class FormActivity extends AppCompatActivity {
         }
         byte[] img = "".getBytes(StandardCharsets.UTF_8);
 
-        content =registerForActivityResult(
+        content = registerForActivityResult(
                 new ActivityResultContracts.GetContent(),
                 new ActivityResultCallback<Uri>() {
                     @Override
@@ -77,7 +77,10 @@ public class FormActivity extends AppCompatActivity {
                     Producto product = new Producto(
                             editFormName.getText().toString(),
                             editFormDescription.getText().toString(),
-                            productService.imageviewToByte(formImage));
+                           ""
+                           //    productService.imageviewToByte(formImage)
+                    );
+
                     dbFirebase.insertData(product);
                      dbHelper.insertData(product);
 
@@ -106,7 +109,7 @@ public class FormActivity extends AppCompatActivity {
                         Producto product = list.get(0);
                         editFormDescription.setText(product.getDescription());
                         editFormName.setText(product.getName());
-                        formImage.setImageBitmap(productService.byteToBitmap(product.getImage()));
+                        //formImage.setImageBitmap(productService.byteToBitmap(product.getImage()));
                     }else{
                         Toast.makeText(getApplicationContext(),"no existe", Toast.LENGTH_SHORT).show();
                     }
