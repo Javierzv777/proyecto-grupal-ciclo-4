@@ -64,7 +64,7 @@ public class Home extends AppCompatActivity {
            if(arrayProducts.size()==0){
                dbFirebase.syncData(productAdapter, arrayProducts, dbHelper);
            }
-           dbFirebase.getData(productAdapter, arrayProducts);
+           //dbFirebase.getData(productAdapter, arrayProducts);
 
        }catch (Exception e){
           Log.e("Error grave", e.getMessage());
