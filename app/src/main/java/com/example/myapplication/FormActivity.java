@@ -26,13 +26,14 @@ import com.example.myapplication.Services.ProductService;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
-public class FormActivity extends AppCompatActivity {
+public class FormActivity extends AppCompatActivity implements ComeBackHome{
     private ProductService productService;
     private DBFirebase dbFirebase;
     private DBHelper dbHelper;
     private ImageView formImage;
     private EditText editFormName, editFormDescription, editIdFormProduct;
     private Button btnFormProduct, btnGet, btnUpdate, btnDelete;
+    private ComeBackHome comeBackHome;
     ActivityResultLauncher<String> content;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +47,7 @@ public class FormActivity extends AppCompatActivity {
         editIdFormProduct = (EditText) findViewById(R.id.editIdFormProduct);
         editFormDescription = (EditText) findViewById(R.id.editFormDescription);
         formImage = (ImageView) findViewById(R.id.formImage);
+        comeBackHome = this;
         try {
             productService = new ProductService();
             dbHelper = new DBHelper(this);
@@ -74,6 +76,7 @@ public class FormActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+
                 try {
                     Producto product = new Producto(
                             editFormName.getText().toString(),
@@ -82,13 +85,7 @@ public class FormActivity extends AppCompatActivity {
                            //    productService.imageviewToByte(formImage)
                     );
 
-                    dbFirebase.insertData(product, dbHelper, getApplicationContext(), new ComeBackHome() {
-                        @Override
-                        public void intentToHome() {
-                            Intent intent = new Intent(getApplicationContext(), Home.class);
-                            startActivity(intent);
-                        }
-                    });
+                    dbFirebase.insertData(product, dbHelper, getApplicationContext(), comeBackHome );
 
 
                     //
@@ -160,7 +157,9 @@ public class FormActivity extends AppCompatActivity {
                 clean();
 
             }
+
         });
+
 
 
     }
@@ -171,4 +170,9 @@ public class FormActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void intentToHome() {
+        Intent intent = new Intent(getApplicationContext(), Home.class);
+        startActivity(intent);
+    }
 }
