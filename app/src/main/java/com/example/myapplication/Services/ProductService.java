@@ -1,11 +1,14 @@
 package com.example.myapplication.Services;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.widget.ImageView;
 
+import com.example.myapplication.DB.DBFirebase;
+import com.example.myapplication.DB.DBHelper;
 import com.example.myapplication.Entities.Producto;
 
 import java.io.ByteArrayOutputStream;
@@ -15,7 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class ProductService {
-    public ArrayList<Producto> cursorToArray(Cursor cursor){
+    public ArrayList<Producto> cursorToArray(Cursor cursor, Context context){
         ArrayList<Producto> list = new ArrayList<>();
         if(cursor.getCount()==0){
             return list;
@@ -30,6 +33,11 @@ public class ProductService {
                     stringToDate(cursor.getString(6)),
                     stringToDate(cursor.getString(7))
                 );
+            if(Boolean.valueOf(cursor.getString(8))){
+                DBFirebase dbFirebase = new DBFirebase();
+                DBHelper dbHelper = new DBHelper(context);
+                dbFirebase.uploadData(product, dbHelper);
+            }
 
                 list.add(product);
             }

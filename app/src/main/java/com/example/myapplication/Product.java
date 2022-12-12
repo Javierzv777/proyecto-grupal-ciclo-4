@@ -37,7 +37,7 @@ public class Product extends AppCompatActivity {
 
         Intent intentIn = getIntent();
         String id = intentIn.getStringExtra("id");
-        ArrayList<Producto> list = productService.cursorToArray(dbHelper.getDataById(id));
+        ArrayList<Producto> list = productService.cursorToArray(dbHelper.getDataById(id), getApplicationContext());
         Producto product = list.get(0);
 
         textProductTitle.setText(product.getName());

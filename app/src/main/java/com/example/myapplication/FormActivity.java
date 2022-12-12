@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.example.myapplication.DB.DBFirebase;
 import com.example.myapplication.DB.DBHelper;
 import com.example.myapplication.Entities.Producto;
+import com.example.myapplication.Services.ComeBackHome;
 import com.example.myapplication.Services.ProductService;
 
 import java.nio.charset.StandardCharsets;
@@ -81,8 +82,14 @@ public class FormActivity extends AppCompatActivity {
                            //    productService.imageviewToByte(formImage)
                     );
 
-                    dbFirebase.insertData(product);
-                     dbHelper.insertData(product);
+                    dbFirebase.insertData(product, dbHelper, getApplicationContext(), new ComeBackHome() {
+                        @Override
+                        public void intentToHome() {
+                            Intent intent = new Intent(getApplicationContext(), Home.class);
+                            startActivity(intent);
+                        }
+                    });
+
 
                     //
                 }catch (Exception e){
@@ -90,8 +97,7 @@ public class FormActivity extends AppCompatActivity {
                 }
 
 
-                Intent intent = new Intent(getApplicationContext(), Home.class);
-                startActivity(intent);
+
             }
         });
 
@@ -101,7 +107,7 @@ public class FormActivity extends AppCompatActivity {
 
                 String id = editIdFormProduct.getText().toString().trim();
                 if(id.compareTo("") != 0) {
-                    ArrayList<Producto> list = productService.cursorToArray(dbHelper.getDataById(id));
+                    ArrayList<Producto> list = productService.cursorToArray(dbHelper.getDataById(id), getApplicationContext());
 
                     list.add(dbFirebase.getDataById(id));
 
@@ -126,6 +132,7 @@ public class FormActivity extends AppCompatActivity {
                 String id = editIdFormProduct.getText().toString().trim();
                 if(id.compareTo("") != 0) {
                     dbHelper.deleteDataById(id);
+                    dbFirebase.deleteDataById(id);
                     clean();
                 } else {
                     Toast.makeText(getApplicationContext(),"ingrese Id a eliminar", Toast.LENGTH_SHORT).show();
@@ -144,6 +151,11 @@ public class FormActivity extends AppCompatActivity {
                             editFormName.getText().toString(),
                             editFormDescription.getText().toString(),
                             productService.imageviewToByte(formImage));
+                    dbFirebase.updateDataById(
+                            id,
+                            editFormName.getText().toString(),
+                            editFormDescription.getText().toString(),
+                            productService.imageviewToByte(formImage));
                 }
                 clean();
 
@@ -157,4 +169,6 @@ public class FormActivity extends AppCompatActivity {
         editFormName.setText("");
         formImage.setImageResource(R.drawable.empty);
     }
+
+
 }

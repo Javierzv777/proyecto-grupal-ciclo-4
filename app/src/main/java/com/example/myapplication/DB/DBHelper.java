@@ -26,7 +26,8 @@ public class DBHelper extends SQLiteOpenHelper {
                 "img TEXT," +
                 "deleted BOOLEAN, " +
                 "createdAt DATETIME," +
-                "updatedAt DATETIME" +
+                "updatedAt DATETIME," +
+                "forUpload BOOLEAN" +
                 ")" );
     }
 
@@ -37,8 +38,8 @@ public class DBHelper extends SQLiteOpenHelper {
 
     //metodos crud
 
-    public void insertData(Producto product) {
-        String sql = "INSERT INTO PRODUCTS VALUES (NULL, ?,?,?,?,?,?,?)";
+    public void insertData(Producto product, Boolean forUpload) {
+        String sql = "INSERT INTO PRODUCTS VALUES (NULL, ?,?,?,?,?,?,?,?)";
         SQLiteStatement statement = sqLiteDatabase.compileStatement(sql);
         statement.bindString(1,product.getId());
         statement.bindString(2,product.getName());
@@ -47,6 +48,7 @@ public class DBHelper extends SQLiteOpenHelper {
         statement.bindString(5,String.valueOf(product.isDelete()));
         statement.bindString(6,String.valueOf(product.getCreatedAt()));
         statement.bindString(7, String.valueOf(product.getUpdatedAt()));
+        statement.bindString(8,String.valueOf(forUpload));
 
         statement.executeInsert();
     }
@@ -62,7 +64,10 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public void deleteDataById(String id){
-       sqLiteDatabase.execSQL("DELETE FROM PRODUCTS WHERE id =" + id);
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("deleted", true);
+        sqLiteDatabase.update("PRODUCTS", contentValues, "id = ?", new String[]{id});
+        //sqLiteDatabase.execSQL("DELETE FROM PRODUCTS WHERE id =" + id);
     }
 
     public void updateDataById(String id, String name, String description, byte[] image ){
@@ -70,6 +75,12 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put("name", name);
         contentValues.put("description", description);
         contentValues.put("img", image);
+        sqLiteDatabase.update("PRODUCTS", contentValues, "id = ?", new String[]{id});
+    }
+
+    public void updateUpload(String id, Boolean forUpload){
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("forUpload", forUpload);
         sqLiteDatabase.update("PRODUCTS", contentValues, "id = ?", new String[]{id});
     }
 }

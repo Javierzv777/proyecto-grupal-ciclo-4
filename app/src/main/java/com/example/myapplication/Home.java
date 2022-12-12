@@ -22,6 +22,8 @@ import com.example.myapplication.Services.ProductService;
 
 import java.util.ArrayList;
 
+
+
 public class Home extends AppCompatActivity {
     private DBHelper dbHelper;
     private DBFirebase dbFirebase;
@@ -44,7 +46,7 @@ public class Home extends AppCompatActivity {
 
             productService = new ProductService();
             Cursor cursor = dbHelper.getData();
-            arrayProducts = productService.cursorToArray(cursor);
+            arrayProducts = productService.cursorToArray(cursor, getApplicationContext());
             Toast.makeText(this, "lectura OK", Toast.LENGTH_SHORT).show();
         }catch (Exception e){
             Toast.makeText(this, "Error lectura DB", Toast.LENGTH_SHORT).show();
