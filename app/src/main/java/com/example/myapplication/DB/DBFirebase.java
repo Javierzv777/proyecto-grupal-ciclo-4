@@ -56,7 +56,8 @@ public class DBFirebase {
                     public void onSuccess(DocumentReference documentReference) {
                         AppCompatActivity appCompatActivity = new AppCompatActivity();
                         Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                        dbHelper.insertData(producto, false, false);
+                        producto.setId(documentReference.getId());
+                        dbHelper.insertData(producto, false, false, false);
                         comeBackHome.intentToHome();
                     }
                 })
@@ -64,7 +65,7 @@ public class DBFirebase {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Log.w(TAG, "Error adding document", e);
-                        dbHelper.insertData(producto, true, false);
+                        dbHelper.insertData(producto, true, false, false);
                         comeBackHome.intentToHome();
                     }
                 });
@@ -86,7 +87,7 @@ public class DBFirebase {
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+
                         dbHelper.updateUpload(producto.getId(), false);
                     }
                 })
@@ -116,7 +117,8 @@ public class DBFirebase {
                                     Log.d(TAG, document.getId() + " => " + document.getData());
                                     Producto product = null;
                                     product = new Producto(
-                                            document.getData().get("id").toString(),
+                                            document.getId(),
+                                            //document.getData().get("id").toString(),
                                             document.getData().get("name").toString(),
                                             document.getData().get("description").toString(),
                                             document.getData().get("image").toString(),
@@ -125,7 +127,7 @@ public class DBFirebase {
                                             productService.stringToDate(document.getData().get("updatedAt").toString())
 
                                     );
-                                    dbHelper.insertData(product, false, false);
+                                    dbHelper.insertData(product, false, false, false);
                                     list.add(product);
                                 }
 
@@ -239,14 +241,14 @@ public class DBFirebase {
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        dbHelper.deleteDataById(id, true);
+                        dbHelper.deleteDataById(id, false);
                         comeBackHome.intentToHome();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        dbHelper.deleteDataById(id,false);
+                        dbHelper.deleteDataById(id,true);
                         comeBackHome.intentToHome();
                     }
                 });

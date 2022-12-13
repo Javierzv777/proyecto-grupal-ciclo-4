@@ -24,35 +24,38 @@ public class ProductService {
             return list;
         }else {
             while (cursor.moveToNext()) {
-            Producto product = new Producto(
-                    cursor.getString(1),
-                    cursor.getString(2),
-                    cursor.getString(3),
-                    cursor.getString(4),
-                    Boolean.valueOf(cursor.getString(5)),
-                    stringToDate(cursor.getString(6)),
-                    stringToDate(cursor.getString(7))
-                );
-            if(Boolean.valueOf(cursor.getString(8))){
-                DBFirebase dbFirebase = new DBFirebase();
-                DBHelper dbHelper = new DBHelper(context);
-                dbFirebase.uploadData(product, dbHelper);
-            }
+                if( !Boolean.valueOf(cursor.getString(5))){
+                    Producto product = new Producto(
+                            cursor.getString(1),
+                            cursor.getString(2),
+                            cursor.getString(3),
+                            cursor.getString(4),
+                            Boolean.valueOf(cursor.getString(5)),
+                            stringToDate(cursor.getString(6)),
+                            stringToDate(cursor.getString(7))
+                    );
+                    if(Boolean.valueOf(cursor.getString(8))){
+                        DBFirebase dbFirebase = new DBFirebase();
+                        DBHelper dbHelper = new DBHelper(context);
+                        dbFirebase.uploadData(product, dbHelper);
+                    }
 //for update
-                if(Boolean.valueOf(cursor.getString(9))){
-                    DBFirebase dbFirebase = new DBFirebase();
-                    DBHelper dbHelper = new DBHelper(context);
-                    dbFirebase.forUpdate(product, dbHelper);
+                    if(Boolean.valueOf(cursor.getString(9))){
+                        DBFirebase dbFirebase = new DBFirebase();
+                        DBHelper dbHelper = new DBHelper(context);
+                        dbFirebase.forUpdate(product, dbHelper);
+                    }
+
+                    if(Boolean.valueOf(cursor.getString(10))){
+                        DBFirebase dbFirebase = new DBFirebase();
+                        DBHelper dbHelper = new DBHelper(context);
+                        dbFirebase.forDelete(product, dbHelper);
+                    }
+
+
+                    list.add(product);
                 }
 
-                if(Boolean.valueOf(cursor.getString(10))){
-                    DBFirebase dbFirebase = new DBFirebase();
-                    DBHelper dbHelper = new DBHelper(context);
-                    dbFirebase.forDelete(product, dbHelper);
-                }
-
-
-                list.add(product);
             }
         }
         return list;

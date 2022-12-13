@@ -40,8 +40,8 @@ public class DBHelper extends SQLiteOpenHelper {
 
     //metodos crud
 
-    public void insertData(Producto product, Boolean forUpload, Boolean forUpdate) {
-        String sql = "INSERT INTO PRODUCTS VALUES (NULL, ?,?,?,?,?,?,?,?,?)";
+    public void insertData(Producto product, Boolean forUpload, Boolean forUpdate, Boolean forDelete) {
+        String sql = "INSERT INTO PRODUCTS VALUES (NULL, ?,?,?,?,?,?,?,?,?,?)";
         SQLiteStatement statement = sqLiteDatabase.compileStatement(sql);
         statement.bindString(1,product.getId());
         statement.bindString(2,product.getName());
@@ -52,6 +52,7 @@ public class DBHelper extends SQLiteOpenHelper {
         statement.bindString(7, String.valueOf(product.getUpdatedAt()));
         statement.bindString(8,String.valueOf(forUpload));
         statement.bindString(9,String.valueOf(forUpdate));
+        statement.bindString(10,String.valueOf(forDelete));
 
         statement.executeInsert();
     }
@@ -74,7 +75,7 @@ public class DBHelper extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put("deleted", true);
         contentValues.put("forDelete", forDelete);
-        sqLiteDatabase.update("PRODUCTS", contentValues, "id = ?", new String[]{id});
+        sqLiteDatabase.update("PRODUCTS", contentValues, "uuid = ?", new String[]{id});
         //sqLiteDatabase.execSQL("DELETE FROM PRODUCTS WHERE id =" + id);
     }
 
@@ -84,7 +85,7 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put("description", description);
         contentValues.put("img", image);
         contentValues.put("forUpdate", forUpdate);
-        sqLiteDatabase.update("PRODUCTS", contentValues, "id = ?", new String[]{id});
+        sqLiteDatabase.update("PRODUCTS", contentValues, "uuid = ?", new String[]{id});
     }
 
     public void updateUpload(String id, Boolean forUpload){

@@ -34,6 +34,8 @@ public class FormActivity extends AppCompatActivity implements ComeBackHome{
     private EditText editFormName, editFormDescription, editIdFormProduct;
     private Button btnFormProduct, btnGet, btnUpdate, btnDelete;
     private ComeBackHome comeBackHome;
+    private String uuid;
+
     ActivityResultLauncher<String> content;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,6 +111,7 @@ public class FormActivity extends AppCompatActivity implements ComeBackHome{
                         Producto product = list.get(0);
                         editFormDescription.setText(product.getDescription());
                         editFormName.setText(product.getName());
+                        uuid = product.getId();
                         //formImage.setImageBitmap(productService.byteToBitmap(product.getImage()));
                     }else{
                         Toast.makeText(getApplicationContext(),"no existe", Toast.LENGTH_SHORT).show();
@@ -123,11 +126,12 @@ public class FormActivity extends AppCompatActivity implements ComeBackHome{
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String id = editIdFormProduct.getText().toString().trim();
+                //String id = editIdFormProduct.getText().toString().trim();
+                String id = uuid;
                 if(id.compareTo("") != 0) {
                     //dbHelper.deleteDataById(id);
                     dbFirebase.deleteDataById(id, dbHelper, comeBackHome);
-                    clean();
+                    //clean();
                 } else {
                     Toast.makeText(getApplicationContext(),"ingrese Id a eliminar", Toast.LENGTH_SHORT).show();
                 }
@@ -138,7 +142,8 @@ public class FormActivity extends AppCompatActivity implements ComeBackHome{
         btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String id = editIdFormProduct.getText().toString().trim();
+                //String id = editIdFormProduct.getText().toString().trim();
+                String id = uuid;
                 if(id.compareTo("") != 0) {
                   /*  dbHelper.updateDataById(
                             id,
