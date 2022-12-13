@@ -63,7 +63,7 @@ public class Home extends AppCompatActivity {
 
 
        try{
-           if(arrayProducts.size()==0){
+           if( arrayProducts.size() <= dbFirebase.getDataSize()){
                dbFirebase.syncData(productAdapter, arrayProducts, dbHelper);
            }
            //dbFirebase.getData(productAdapter, arrayProducts);

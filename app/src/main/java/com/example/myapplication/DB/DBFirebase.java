@@ -38,7 +38,7 @@ public class DBFirebase {
         this.db = FirebaseFirestore.getInstance();
         this.productService = new ProductService();
     }
-    public void insertData(Producto producto, DBHelper dbHelper, Context context, ComeBackHome comeBackHome){
+    public void insertData(Producto producto, DBHelper dbHelper, ComeBackHome comeBackHome){
         // Create a new user with a first and last name
         Map<String, Object> product = new HashMap<>();
         product.put("id", producto.getId());
@@ -110,6 +110,7 @@ public class DBFirebase {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
 
+                            dbHelper.deleteAllRecords();
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 if(!Boolean.valueOf(document.getData().get("deleted").toString())){
                                     Log.d(TAG, document.getId() + " => " + document.getData());
@@ -181,6 +182,23 @@ public class DBFirebase {
 
                     }
                 });
+    }
+
+    public int getDataSize(){
+        final int[] dataSize = new int[1];
+
+        db.collection("products")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                        dataSize[0] = task.getResult().size();
+                        }
+                    }
+                });
+        return dataSize[0];
+
     }
 
     public Producto getDataById(String id){

@@ -85,16 +85,13 @@ public class FormActivity extends AppCompatActivity implements ComeBackHome{
                            //    productService.imageviewToByte(formImage)
                     );
 
-                    dbFirebase.insertData(product, dbHelper, getApplicationContext(), comeBackHome );
+                    dbFirebase.insertData(product, dbHelper, comeBackHome );
 
 
                     //
                 }catch (Exception e){
                     Log.e("DB Insert", e.toString());
                 }
-
-
-
             }
         });
 
@@ -106,7 +103,7 @@ public class FormActivity extends AppCompatActivity implements ComeBackHome{
                 if(id.compareTo("") != 0) {
                     ArrayList<Producto> list = productService.cursorToArray(dbHelper.getDataById(id), getApplicationContext());
 
-                    list.add(dbFirebase.getDataById(id));
+                    //list.add(dbFirebase.getDataById(id));
 
                     if(list.size() != 0){
                         Producto product = list.get(0);

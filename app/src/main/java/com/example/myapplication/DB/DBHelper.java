@@ -63,6 +63,10 @@ public class DBHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
+    public void deleteAllRecords(){
+        sqLiteDatabase.execSQL("DELETE FROM PRODUCTS");
+    }
+
     public void deleteDataById(String id){
         ContentValues contentValues = new ContentValues();
         contentValues.put("deleted", true);
