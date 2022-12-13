@@ -5,6 +5,7 @@ import static android.content.ContentValues.TAG;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -231,12 +232,12 @@ public class DBFirebase {
         return product[0];
     }
 
-    public void deleteDataById(String id, DBHelper dbHelper, ComeBackHome comeBackHome) {
+    public void deleteDataById(String id, String uuid, DBHelper dbHelper, ComeBackHome comeBackHome) {
        /* db.collection("products")
                 .document(id)
                 .update("deleted",true)*/
         db.collection("products")
-                .document(id)
+                .document(uuid)
                 .update("deleted", true)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
@@ -248,15 +249,16 @@ public class DBFirebase {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
+                        Log.e("Error", "error eliminando data");
                         dbHelper.deleteDataById(id,true);
                         comeBackHome.intentToHome();
                     }
                 });
     }
 
-    public void updateDataById(String id, String name, String description, byte[] image, DBHelper dbHelper, ComeBackHome comeBackHome) {
+    public void updateDataById(String id, String uuid, String name, String description, byte[] image, DBHelper dbHelper, ComeBackHome comeBackHome) {
         db.collection("products")
-                .document(id)
+                .document(uuid)
                 .update("name",name, "description", description)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override

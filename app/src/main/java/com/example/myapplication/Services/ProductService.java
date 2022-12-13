@@ -82,7 +82,7 @@ public class ProductService {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        return null;
+        return new Date();
     }
 
 }

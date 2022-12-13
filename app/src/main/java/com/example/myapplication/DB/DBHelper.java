@@ -75,7 +75,7 @@ public class DBHelper extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put("deleted", true);
         contentValues.put("forDelete", forDelete);
-        sqLiteDatabase.update("PRODUCTS", contentValues, "uuid = ?", new String[]{id});
+        sqLiteDatabase.update("PRODUCTS", contentValues, "id = ?", new String[]{id});
         //sqLiteDatabase.execSQL("DELETE FROM PRODUCTS WHERE id =" + id);
     }
 
@@ -85,7 +85,7 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put("description", description);
         contentValues.put("img", image);
         contentValues.put("forUpdate", forUpdate);
-        sqLiteDatabase.update("PRODUCTS", contentValues, "uuid = ?", new String[]{id});
+        sqLiteDatabase.update("PRODUCTS", contentValues, "id = ?", new String[]{id});
     }
 
     public void updateUpload(String id, Boolean forUpload){

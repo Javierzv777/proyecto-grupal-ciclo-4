@@ -126,11 +126,11 @@ public class FormActivity extends AppCompatActivity implements ComeBackHome{
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //String id = editIdFormProduct.getText().toString().trim();
-                String id = uuid;
-                if(id.compareTo("") != 0) {
+                String id = editIdFormProduct.getText().toString().trim();
+
+                if(id.compareTo("") != 0 && uuid.compareTo("") != 0) {
                     //dbHelper.deleteDataById(id);
-                    dbFirebase.deleteDataById(id, dbHelper, comeBackHome);
+                    dbFirebase.deleteDataById( id, uuid, dbHelper, comeBackHome);
                     //clean();
                 } else {
                     Toast.makeText(getApplicationContext(),"ingrese Id a eliminar", Toast.LENGTH_SHORT).show();
@@ -142,9 +142,8 @@ public class FormActivity extends AppCompatActivity implements ComeBackHome{
         btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //String id = editIdFormProduct.getText().toString().trim();
-                String id = uuid;
-                if(id.compareTo("") != 0) {
+                String id = editIdFormProduct.getText().toString().trim();
+                if(id.compareTo("") != 0 && uuid.compareTo("") != 0) {
                   /*  dbHelper.updateDataById(
                             id,
                             editFormName.getText().toString(),
@@ -153,6 +152,7 @@ public class FormActivity extends AppCompatActivity implements ComeBackHome{
                             */
                     dbFirebase.updateDataById(
                             id,
+                            uuid,
                             editFormName.getText().toString(),
                             editFormDescription.getText().toString(),
                             productService.imageviewToByte(formImage),
