@@ -12,7 +12,6 @@ public class Producto {
     private boolean delete;
     private Date createdAt;
     private Date updatedAt;
-    private boolean forUpload;
 
 
     public Producto(String name, String descripcion, String image) {
@@ -23,7 +22,6 @@ public class Producto {
         this.createdAt = new Date();
         this.updatedAt = new Date();
         this.delete = false;
-        this.forUpload = false;
     }
 
     public Producto(String id, String name, String descripcion, String image) {
@@ -34,7 +32,6 @@ public class Producto {
         this.createdAt = new Date();
         this.updatedAt = new Date();
         this.delete = false;
-        this.forUpload = false;
     }
 
     public Producto(String id, String name, String descripcion, String image, Boolean delete, Date createdAt, Date updatedAt) {
@@ -45,7 +42,6 @@ public class Producto {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.delete = delete;
-        this.forUpload = false;
     }
 
     public Producto(String id, String name, String descripcion, String image, Boolean delete, Date createdAt, Date updatedAt, Boolean forUpload) {
@@ -56,7 +52,6 @@ public class Producto {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.delete = delete;
-        this.forUpload = forUpload;
     }
 
 
@@ -70,7 +65,6 @@ public class Producto {
         this.createdAt = new Date();
         this.updatedAt = new Date();
         this.delete = false;
-        this.forUpload = false;
     }
 
 

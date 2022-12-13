@@ -125,8 +125,8 @@ public class FormActivity extends AppCompatActivity implements ComeBackHome{
             public void onClick(View view) {
                 String id = editIdFormProduct.getText().toString().trim();
                 if(id.compareTo("") != 0) {
-                    dbHelper.deleteDataById(id);
-                    dbFirebase.deleteDataById(id);
+                    //dbHelper.deleteDataById(id);
+                    dbFirebase.deleteDataById(id, dbHelper, comeBackHome);
                     clean();
                 } else {
                     Toast.makeText(getApplicationContext(),"ingrese Id a eliminar", Toast.LENGTH_SHORT).show();
@@ -140,16 +140,20 @@ public class FormActivity extends AppCompatActivity implements ComeBackHome{
             public void onClick(View view) {
                 String id = editIdFormProduct.getText().toString().trim();
                 if(id.compareTo("") != 0) {
-                    dbHelper.updateDataById(
+                  /*  dbHelper.updateDataById(
                             id,
                             editFormName.getText().toString(),
                             editFormDescription.getText().toString(),
                             productService.imageviewToByte(formImage));
+                            */
                     dbFirebase.updateDataById(
                             id,
                             editFormName.getText().toString(),
                             editFormDescription.getText().toString(),
-                            productService.imageviewToByte(formImage));
+                            productService.imageviewToByte(formImage),
+                            dbHelper,
+                            comeBackHome);
+
                 }
                 clean();
 

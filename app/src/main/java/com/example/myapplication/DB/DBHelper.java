@@ -27,7 +27,9 @@ public class DBHelper extends SQLiteOpenHelper {
                 "deleted BOOLEAN, " +
                 "createdAt DATETIME," +
                 "updatedAt DATETIME," +
-                "forUpload BOOLEAN" +
+                "forUpload BOOLEAN," +
+                "forUpdate BOOLEAN," +
+                "forDelete BOOLEAN" +
                 ")" );
     }
 
@@ -38,8 +40,8 @@ public class DBHelper extends SQLiteOpenHelper {
 
     //metodos crud
 
-    public void insertData(Producto product, Boolean forUpload) {
-        String sql = "INSERT INTO PRODUCTS VALUES (NULL, ?,?,?,?,?,?,?,?)";
+    public void insertData(Producto product, Boolean forUpload, Boolean forUpdate) {
+        String sql = "INSERT INTO PRODUCTS VALUES (NULL, ?,?,?,?,?,?,?,?,?)";
         SQLiteStatement statement = sqLiteDatabase.compileStatement(sql);
         statement.bindString(1,product.getId());
         statement.bindString(2,product.getName());
@@ -49,6 +51,7 @@ public class DBHelper extends SQLiteOpenHelper {
         statement.bindString(6,String.valueOf(product.getCreatedAt()));
         statement.bindString(7, String.valueOf(product.getUpdatedAt()));
         statement.bindString(8,String.valueOf(forUpload));
+        statement.bindString(9,String.valueOf(forUpdate));
 
         statement.executeInsert();
     }
@@ -67,24 +70,37 @@ public class DBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("DELETE FROM PRODUCTS");
     }
 
-    public void deleteDataById(String id){
+    public void deleteDataById(String id, Boolean forDelete){
         ContentValues contentValues = new ContentValues();
         contentValues.put("deleted", true);
+        contentValues.put("forDelete", forDelete);
         sqLiteDatabase.update("PRODUCTS", contentValues, "id = ?", new String[]{id});
         //sqLiteDatabase.execSQL("DELETE FROM PRODUCTS WHERE id =" + id);
     }
 
-    public void updateDataById(String id, String name, String description, byte[] image ){
+    public void updateDataById(String id, String name, String description, byte[] image, Boolean forUpdate ){
         ContentValues contentValues = new ContentValues();
         contentValues.put("name", name);
         contentValues.put("description", description);
         contentValues.put("img", image);
+        contentValues.put("forUpdate", forUpdate);
         sqLiteDatabase.update("PRODUCTS", contentValues, "id = ?", new String[]{id});
     }
 
     public void updateUpload(String id, Boolean forUpload){
         ContentValues contentValues = new ContentValues();
         contentValues.put("forUpload", forUpload);
+        sqLiteDatabase.update("PRODUCTS", contentValues, "id = ?", new String[]{id});
+    }
+
+    public void isUpdated(String id, Boolean forUpdate){
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("forUpdate", forUpdate);
+        sqLiteDatabase.update("PRODUCTS", contentValues, "id = ?", new String[]{id});
+    }
+    public void isDeleted(String id, Boolean isDeleted){
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("isDeleted", isDeleted);
         sqLiteDatabase.update("PRODUCTS", contentValues, "id = ?", new String[]{id});
     }
 }

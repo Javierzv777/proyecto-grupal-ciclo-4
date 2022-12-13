@@ -56,7 +56,7 @@ public class DBFirebase {
                     public void onSuccess(DocumentReference documentReference) {
                         AppCompatActivity appCompatActivity = new AppCompatActivity();
                         Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                        dbHelper.insertData(producto, false);
+                        dbHelper.insertData(producto, false, false);
                         comeBackHome.intentToHome();
                     }
                 })
@@ -64,7 +64,7 @@ public class DBFirebase {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Log.w(TAG, "Error adding document", e);
-                        dbHelper.insertData(producto, true);
+                        dbHelper.insertData(producto, true, false);
                         comeBackHome.intentToHome();
                     }
                 });
@@ -125,7 +125,7 @@ public class DBFirebase {
                                             productService.stringToDate(document.getData().get("updatedAt").toString())
 
                                     );
-                                    dbHelper.insertData(product, false);
+                                    dbHelper.insertData(product, false, false);
                                     list.add(product);
                                 }
 
@@ -229,47 +229,82 @@ public class DBFirebase {
         return product[0];
     }
 
-    public void deleteDataById(String id) {
+    public void deleteDataById(String id, DBHelper dbHelper, ComeBackHome comeBackHome) {
+       /* db.collection("products")
+                .document(id)
+                .update("deleted",true)*/
         db.collection("products")
                 .document(id)
-                .update("deleted",true)
+                .update("deleted", true)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-
+                        dbHelper.deleteDataById(id, true);
+                        comeBackHome.intentToHome();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-
+                        dbHelper.deleteDataById(id,false);
+                        comeBackHome.intentToHome();
                     }
                 });
-      /*  db.collection("products")
-                .document(id)
-                .delete()
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-
-                    }
-                });*/
     }
 
-    public void updateDataById(String id, String name, String description, byte[] image) {
+    public void updateDataById(String id, String name, String description, byte[] image, DBHelper dbHelper, ComeBackHome comeBackHome) {
         db.collection("products")
                 .document(id)
                 .update("name",name, "description", description)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-
+                        dbHelper.updateDataById(id, name, description, image, false);
+                        comeBackHome.intentToHome();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
+                        dbHelper.updateDataById(id, name, description, image, true);
+                        comeBackHome.intentToHome();
+                    }
+                });
+    }
 
+    public void forUpdate(Producto producto, DBHelper dbHelper){
+
+        db.collection("products")
+                .document(producto.getId())
+                .update("name",producto.getName(), "description", producto.getDescription())
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        dbHelper.isUpdated(producto.getId(), false);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        dbHelper.isUpdated(producto.getId(), true);
+                    }
+                });
+    }
+
+    public void forDelete(Producto producto, DBHelper dbHelper){
+        db.collection("products")
+                .document(producto.getId())
+                .update("deleted",true)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        dbHelper.isDeleted(producto.getId(), true);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        dbHelper.isDeleted(producto.getId(), false);
                     }
                 });
     }

@@ -38,6 +38,19 @@ public class ProductService {
                 DBHelper dbHelper = new DBHelper(context);
                 dbFirebase.uploadData(product, dbHelper);
             }
+//for update
+                if(Boolean.valueOf(cursor.getString(9))){
+                    DBFirebase dbFirebase = new DBFirebase();
+                    DBHelper dbHelper = new DBHelper(context);
+                    dbFirebase.forUpdate(product, dbHelper);
+                }
+
+                if(Boolean.valueOf(cursor.getString(10))){
+                    DBFirebase dbFirebase = new DBFirebase();
+                    DBHelper dbHelper = new DBHelper(context);
+                    dbFirebase.forDelete(product, dbHelper);
+                }
+
 
                 list.add(product);
             }
