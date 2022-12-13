@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.example.myapplication.DB.DBFirebase;
@@ -24,7 +25,8 @@ public class ProductService {
             return list;
         }else {
             while (cursor.moveToNext()) {
-                if( !Boolean.valueOf(cursor.getString(5))){
+                if( cursor.getString(5).compareTo("1")!=0){
+
                     Producto product = new Producto(
                             cursor.getString(1),
                             cursor.getString(2),
@@ -34,13 +36,13 @@ public class ProductService {
                             stringToDate(cursor.getString(6)),
                             stringToDate(cursor.getString(7))
                     );
-                    if(Boolean.valueOf(cursor.getString(8))){
+                    if(cursor.getString(8).compareTo("1")==0){
                         DBFirebase dbFirebase = new DBFirebase();
                         DBHelper dbHelper = new DBHelper(context);
                         dbFirebase.uploadData(product, dbHelper);
                     }
 //for update
-                    if(Boolean.valueOf(cursor.getString(9))){
+                    if(cursor.getString(9).compareTo("1")==0){
                         DBFirebase dbFirebase = new DBFirebase();
                         DBHelper dbHelper = new DBHelper(context);
                         dbFirebase.forUpdate(product, dbHelper);
