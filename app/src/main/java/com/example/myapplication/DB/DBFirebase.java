@@ -28,6 +28,7 @@ import org.w3c.dom.ls.LSParser;
 
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -89,14 +90,14 @@ public class DBFirebase {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
 
-                        dbHelper.updateUpload(producto.getId(), false);
+                        dbHelper.isUpload(producto.getId(), false);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Log.w(TAG, "Error adding document", e);
-                        dbHelper.updateUpload(producto.getId(), true);
+                        dbHelper.isUpload(producto.getId(), true);
                     }
                 });
     }
@@ -259,7 +260,7 @@ public class DBFirebase {
     public void updateDataById(String id, String uuid, String name, String description, DBHelper dbHelper, ComeBackHome comeBackHome) {
         db.collection("products")
                 .document(uuid)
-                .update("name",name, "description", description)
+                .update("name",name, "description", description, "updatedAt", new Date())
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
@@ -298,7 +299,7 @@ public class DBFirebase {
     public void forDelete(Producto producto, DBHelper dbHelper){
         db.collection("products")
                 .document(producto.getId())
-                .update("deleted",true)
+                .update("deleted",true,  "updatedAt", new Date())
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {

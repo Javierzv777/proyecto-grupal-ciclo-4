@@ -10,6 +10,8 @@ import android.util.Log;
 
 import com.example.myapplication.Entities.Producto;
 
+import java.util.Date;
+
 public class DBHelper extends SQLiteOpenHelper {
     private SQLiteDatabase sqLiteDatabase;
     public DBHelper(Context context){
@@ -81,6 +83,7 @@ public class DBHelper extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put("deleted", true);
         contentValues.put("forDelete", forDelete);
+        contentValues.put("updatedAt", String.valueOf(new Date()));
         sqLiteDatabase.update("PRODUCTS", contentValues, "id = ?", new String[]{id});
         //sqLiteDatabase.execSQL("DELETE FROM PRODUCTS WHERE id =" + id);
     }
@@ -91,10 +94,11 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put("description", description);
       //  contentValues.put("img", image);
         contentValues.put("forUpdate", forUpdate);
+        contentValues.put("updatedAt", String.valueOf(new Date()));
         sqLiteDatabase.update("PRODUCTS", contentValues, "id = ?", new String[]{id});
     }
 
-    public void updateUpload(String id, Boolean forUpload){
+    public void isUpload(String id, Boolean forUpload){
         ContentValues contentValues = new ContentValues();
         contentValues.put("forUpload", forUpload);
         sqLiteDatabase.update("PRODUCTS", contentValues, "id = ?", new String[]{id});
