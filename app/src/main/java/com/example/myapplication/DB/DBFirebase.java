@@ -256,21 +256,21 @@ public class DBFirebase {
                 });
     }
 
-    public void updateDataById(String id, String uuid, String name, String description, byte[] image, DBHelper dbHelper, ComeBackHome comeBackHome) {
+    public void updateDataById(String id, String uuid, String name, String description, DBHelper dbHelper, ComeBackHome comeBackHome) {
         db.collection("products")
                 .document(uuid)
                 .update("name",name, "description", description)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        dbHelper.updateDataById(id, name, description, image, false);
+                        dbHelper.updateDataById(id, name, description, false);
                         comeBackHome.intentToHome();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        dbHelper.updateDataById(id, name, description, image, true);
+                        dbHelper.updateDataById(id, name, description,  true);
                         comeBackHome.intentToHome();
                     }
                 });
@@ -302,13 +302,13 @@ public class DBFirebase {
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        dbHelper.isDeleted(producto.getId(), true);
+                        dbHelper.isDeleted(producto.getId(), false);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        dbHelper.isDeleted(producto.getId(), false);
+                        dbHelper.isDeleted(producto.getId(), true);
                     }
                 });
     }

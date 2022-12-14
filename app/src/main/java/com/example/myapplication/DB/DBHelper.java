@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteStatement;
+import android.util.Log;
 
 import com.example.myapplication.Entities.Producto;
 
@@ -68,7 +69,12 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public void deleteAllRecords(){
-        sqLiteDatabase.execSQL("DELETE FROM PRODUCTS");
+        try{
+            sqLiteDatabase.execSQL("DELETE FROM PRODUCTS");
+        }catch(Exception e){
+            Log.d("Error", "Error deleting all records");
+        }
+
     }
 
     public void deleteDataById(String id, Boolean forDelete){
@@ -79,11 +85,11 @@ public class DBHelper extends SQLiteOpenHelper {
         //sqLiteDatabase.execSQL("DELETE FROM PRODUCTS WHERE id =" + id);
     }
 
-    public void updateDataById(String id, String name, String description, byte[] image, Boolean forUpdate ){
+    public void updateDataById(String id, String name, String description, Boolean forUpdate ){
         ContentValues contentValues = new ContentValues();
         contentValues.put("name", name);
         contentValues.put("description", description);
-        contentValues.put("img", image);
+      //  contentValues.put("img", image);
         contentValues.put("forUpdate", forUpdate);
         sqLiteDatabase.update("PRODUCTS", contentValues, "id = ?", new String[]{id});
     }

@@ -48,7 +48,7 @@ public class ProductService {
                         dbFirebase.forUpdate(product, dbHelper);
                     }
 
-                    if(Boolean.valueOf(cursor.getString(10))){
+                    if(cursor.getString(10).compareTo("1")==0){
                         DBFirebase dbFirebase = new DBFirebase();
                         DBHelper dbHelper = new DBHelper(context);
                         dbFirebase.forDelete(product, dbHelper);

@@ -155,12 +155,12 @@ public class FormActivity extends AppCompatActivity implements ComeBackHome{
                             uuid,
                             editFormName.getText().toString(),
                             editFormDescription.getText().toString(),
-                            productService.imageviewToByte(formImage),
+                            //productService.imageviewToByte(formImage),
                             dbHelper,
                             comeBackHome);
 
                 }
-                clean();
+                //clean();
 
             }
 
