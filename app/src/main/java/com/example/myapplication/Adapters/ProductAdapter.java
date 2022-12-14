@@ -66,10 +66,11 @@ public class ProductAdapter extends BaseAdapter {
         btnProductTemplate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, Product.class);
-                intent.putExtra("id", String.valueOf(producto.getId()));
-                Toast.makeText(context, "Presionado"+producto.getName(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context.getApplicationContext(), Product.class);
+                intent.putExtra("id", String.valueOf(producto.getIntId()));
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
+                Toast.makeText(context, "Presionado"+producto.getName(), Toast.LENGTH_SHORT).show();
             }
         });
 

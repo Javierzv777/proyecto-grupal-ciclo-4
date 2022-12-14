@@ -12,7 +12,11 @@ public class Producto {
     private boolean delete;
     private Date createdAt;
     private Date updatedAt;
+    private int intId = 0;
 
+    public int getIntId() {
+        return intId;
+    }
 
     public Producto(String name, String descripcion, String image) {
         this.id = UUID.randomUUID().toString();
@@ -32,6 +36,17 @@ public class Producto {
         this.createdAt = new Date();
         this.updatedAt = new Date();
         this.delete = false;
+    }
+
+    public Producto(int intId, String id, String name, String descripcion, String image, Boolean delete, Date createdAt, Date updatedAt) {
+        this.intId = intId;
+        this.id = id;
+        this.name = name;
+        this.description = descripcion;
+        this.image = image;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.delete = delete;
     }
 
     public Producto(String id, String name, String descripcion, String image, Boolean delete, Date createdAt, Date updatedAt) {

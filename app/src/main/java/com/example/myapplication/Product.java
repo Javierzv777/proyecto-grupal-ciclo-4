@@ -3,6 +3,7 @@ package com.example.myapplication;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
@@ -37,11 +38,16 @@ public class Product extends AppCompatActivity {
 
         Intent intentIn = getIntent();
         String id = intentIn.getStringExtra("id");
-        ArrayList<Producto> list = productService.cursorToArray(dbHelper.getDataById(id), getApplicationContext());
-        Producto product = list.get(0);
+        Cursor cursor = dbHelper.getDataById(id);
 
-        textProductTitle.setText(product.getName());
-        textProductDes.setText(product.getDescription()); 
+        if(cursor != null){
+            ArrayList<Producto> list = productService.cursorToArray(cursor, getApplicationContext());
+            Producto product = list.get(0);
+
+            textProductTitle.setText(product.getName());
+            textProductDes.setText(product.getDescription());
+        }
+
         //imgProduct.setImageBitmap(productService.byteToBitmap(product.getImage()));
 
         btnProductInfo.setOnClickListener(new View.OnClickListener() {

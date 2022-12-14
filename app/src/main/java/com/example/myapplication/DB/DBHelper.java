@@ -114,4 +114,6 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put("isDeleted", isDeleted);
         sqLiteDatabase.update("PRODUCTS", contentValues, "id = ?", new String[]{id});
     }
+
+
 }

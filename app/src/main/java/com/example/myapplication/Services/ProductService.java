@@ -28,6 +28,7 @@ public class ProductService {
                 if( cursor.getString(5).compareTo("1")!=0){
 
                     Producto product = new Producto(
+                            cursor.getInt(0),
                             cursor.getString(1),
                             cursor.getString(2),
                             cursor.getString(3),

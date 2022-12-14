@@ -59,7 +59,7 @@ public class Home extends AppCompatActivity {
 
         productAdapter = new ProductAdapter(getApplicationContext(), arrayProducts);
         listViewProducts = (ListView) findViewById(R.id.listViewProduct);
-        listViewProducts.setAdapter(productAdapter);
+
 
 
        try{
@@ -71,7 +71,7 @@ public class Home extends AppCompatActivity {
        }catch (Exception e){
           Log.e("Error grave", e.getMessage());
        }
-
+        listViewProducts.setAdapter(productAdapter);
 
     }
 
