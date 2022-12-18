@@ -33,7 +33,6 @@ public class Home extends AppCompatActivity {
     private ProductAdapter productAdapter;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,8 +41,6 @@ public class Home extends AppCompatActivity {
         try {
             dbHelper = new DBHelper(this);
             dbFirebase = new DBFirebase();
-
-
             productService = new ProductService();
             Cursor cursor = dbHelper.getData();
             arrayProducts = productService.cursorToArray(cursor, getApplicationContext());

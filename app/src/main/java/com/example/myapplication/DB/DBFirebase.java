@@ -43,6 +43,7 @@ public class DBFirebase {
     public void insertData(Producto producto, DBHelper dbHelper, ComeBackHome comeBackHome){
         // Create a new user with a first and last name
         Map<String, Object> product = new HashMap<>();
+
         product.put("id", producto.getId());
         product.put("name", producto.getName());
         product.put("description", producto.getDescription());
@@ -50,6 +51,9 @@ public class DBFirebase {
         product.put("deleted", producto.isDelete());
         product.put("createdAt", producto.getCreatedAt());
         product.put("updatedAt", producto.getUpdatedAt());
+        product.put("latitud" , producto.getLatitud());
+        product.put("longitud" ,  producto.getLongitud());
+
         // Add a new document with a generated ID
         db.collection("products")
                 .add(product)
@@ -167,7 +171,9 @@ public class DBFirebase {
                                             document.getData().get("image").toString(),
                                             Boolean.valueOf(document.getData().get("deleted").toString()),
                                             productService.stringToDate(document.getData().get("createdAt").toString()),
-                                            productService.stringToDate(document.getData().get("updatedAt").toString())
+                                            productService.stringToDate(document.getData().get("updatedAt").toString()),
+                                            Double.parseDouble(document.getData().get("latutud").toString()),
+                                            Double.parseDouble(document.getData().get("longitud").toString())
 
                                     );
                                     list.add(product);

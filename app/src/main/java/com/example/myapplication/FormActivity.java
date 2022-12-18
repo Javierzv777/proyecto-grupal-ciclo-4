@@ -5,9 +5,8 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.myapplication.DB.DBFirebase;
@@ -35,8 +35,13 @@ public class FormActivity extends AppCompatActivity implements ComeBackHome{
     private Button btnFormProduct, btnGet, btnUpdate, btnDelete;
     private ComeBackHome comeBackHome;
     private String uuid;
+    private TextView editLat, editLon;
+    private Button mapForm;
+    private String imagen;
+
 
     ActivityResultLauncher<String> content;
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +54,26 @@ public class FormActivity extends AppCompatActivity implements ComeBackHome{
         editIdFormProduct = (EditText) findViewById(R.id.editIdFormProduct);
         editFormDescription = (EditText) findViewById(R.id.editFormDescription);
         formImage = (ImageView) findViewById(R.id.formImage);
+        editLat = (EditText) findViewById(R.id.editLat);
+        editLon = (EditText) findViewById(R.id.editLon);
+        mapForm = (Button) findViewById(R.id.mapForm);
+        imagen = "";
+
+        Intent intentIn = getIntent();
+        editFormName.setText( intentIn.getStringExtra("nombre")) ;
+        editFormDescription.setText(intentIn.getStringExtra("descripcion"));
+        imagen = intentIn.getStringExtra("imagen");
+
+        Intent intent = getIntent();
+        if(intent != null) {
+           String latitud = intent.getStringExtra("latitud");
+           String longitud = intent.getStringExtra("longitud");
+           if(latitud != "" && longitud != "") {
+               editLat.setText(latitud);
+               editLon.setText(longitud);
+           }
+        }
+
         comeBackHome = this;
         try {
             productService = new ProductService();
@@ -83,7 +108,9 @@ public class FormActivity extends AppCompatActivity implements ComeBackHome{
                     Producto product = new Producto(
                             editFormName.getText().toString(),
                             editFormDescription.getText().toString(),
-                           ""
+                            "",
+                            Double.parseDouble(editLat.getText().toString().trim()),
+                            Double.parseDouble(editLon.getText().toString().trim())
                            //    productService.imageviewToByte(formImage)
                     );
 
@@ -94,6 +121,21 @@ public class FormActivity extends AppCompatActivity implements ComeBackHome{
                 }catch (Exception e){
                     Log.e("DB Insert", e.toString());
                 }
+            }
+        });
+
+        mapForm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), Maps.class);
+
+
+
+                intent.putExtra("imagen", imagen );
+                intent.putExtra("nombre", editFormName.getText().toString());
+                intent.putExtra("descripcion", editFormDescription.getText().toString());
+                intent.putExtra("consulta", "consulta" );
+                startActivity(intent);
             }
         });
 

@@ -13,13 +13,16 @@ public class Producto {
     private Date createdAt;
     private Date updatedAt;
     private int intId = 0;
+    private Double latitud;
+    private Double longitud;
+
 
 
     public int getIntId() {
         return intId;
     }
 
-    public Producto(String name, String descripcion, String image) {
+    public Producto(String name, String descripcion, String image, Double latitud, Double longitud) {
         this.id = UUID.randomUUID().toString();
         this.name = name;
         this.description = descripcion;
@@ -27,6 +30,8 @@ public class Producto {
         this.createdAt = new Date();
         this.updatedAt = new Date();
         this.delete = false;
+        this.latitud = latitud;
+        this.longitud = longitud;
     }
 
     public Producto(String id, String name, String descripcion, String image) {
@@ -44,6 +49,54 @@ public class Producto {
         this.id = id;
         this.name = name;
         this.description = descripcion;
+        this.image = image;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.delete = delete;
+    }
+
+    public Producto(
+            int intId,
+            String id,
+            String name,
+            String descripcion,
+            String image,
+            Boolean delete,
+            Date createdAt,
+            Date updatedAt,
+            Double latitud,
+            Double longitud
+    ) {
+        this.intId = intId;
+        this.id = id;
+        this.name = name;
+        this.description = descripcion;
+        this.image = image;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.delete = delete;
+        this.latitud= latitud;
+        this.longitud = longitud;
+    }
+
+    public Producto(
+
+        String id,
+        String name,
+        String description,
+        String image,
+        Boolean delete,
+        Date createdAt,
+        Date updatedAt,
+        Double latitud,
+        Double longitud
+    ) {
+        this.latitud = latitud;
+        this.longitud = longitud;
+        this.intId = intId;
+        this.id = id;
+        this.name = name;
+        this.description = description;
         this.image = image;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
@@ -86,6 +139,25 @@ public class Producto {
 
 
 
+    public void setIntId(int intId) {
+        this.intId = intId;
+    }
+
+    public Double getLatitud() {
+        return latitud;
+    }
+
+    public void setLatitud(Double latitud) {
+        this.latitud = latitud;
+    }
+
+    public Double getLongitud() {
+        return longitud;
+    }
+
+    public void setLongitud(Double longitud) {
+        this.longitud = longitud;
+    }
 
     public boolean isDelete() {
         return delete;

@@ -32,7 +32,9 @@ public class DBHelper extends SQLiteOpenHelper {
                 "updatedAt DATETIME," +
                 "forUpload BOOLEAN," +
                 "forUpdate BOOLEAN," +
-                "forDelete BOOLEAN" +
+                "forDelete BOOLEAN," +
+                "latitud VARCHAR," +
+                "longitud VARCHAR" +
                 ")" );
     }
 
@@ -44,7 +46,7 @@ public class DBHelper extends SQLiteOpenHelper {
     //metodos crud
 
     public void insertData(Producto product, Boolean forUpload, Boolean forUpdate, Boolean forDelete) {
-        String sql = "INSERT INTO PRODUCTS VALUES (NULL, ?,?,?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO PRODUCTS VALUES (NULL, ?,?,?,?,?,?,?,?,?,?,?,?)";
         SQLiteStatement statement = sqLiteDatabase.compileStatement(sql);
         statement.bindString(1,product.getId());
         statement.bindString(2,product.getName());
@@ -56,6 +58,8 @@ public class DBHelper extends SQLiteOpenHelper {
         statement.bindString(8,String.valueOf(forUpload));
         statement.bindString(9,String.valueOf(forUpdate));
         statement.bindString(10,String.valueOf(forDelete));
+        statement.bindString(11,Double.toString(product.getLatitud()));
+        statement.bindString(12,Double.toString(product.getLongitud()));
 
         statement.executeInsert();
     }

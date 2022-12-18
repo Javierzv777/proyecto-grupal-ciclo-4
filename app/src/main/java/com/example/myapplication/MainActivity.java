@@ -14,13 +14,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         btnInit = (Button) findViewById(R.id.btnInit);
         btnInit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent intent = new Intent(getApplicationContext(), MapsGoogle.class);
+                        Intent intent = new Intent(getApplicationContext(), Home.class);
                         startActivity(intent);
-
                     }
                 }
         );
