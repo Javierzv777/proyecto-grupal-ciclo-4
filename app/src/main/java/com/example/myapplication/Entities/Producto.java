@@ -14,6 +14,7 @@ public class Producto {
     private Date updatedAt;
     private int intId = 0;
 
+
     public int getIntId() {
         return intId;
     }

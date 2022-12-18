@@ -12,6 +12,7 @@
     <string name="btn_text_home">Home</string>
     //string product
     <string name="btn_info_product">Volver</string>
+    <string name="title_activity_maps_google">MapsGoogle</string>
 
 
 </resources>

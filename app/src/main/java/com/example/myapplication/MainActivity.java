@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
         btnInit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent intent = new Intent(getApplicationContext(), Maps.class);
+                        Intent intent = new Intent(getApplicationContext(), MapsGoogle.class);
                         startActivity(intent);
 
                     }

@@ -13,6 +13,7 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapController;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.MapEventsOverlay;
+import org.osmdroid.views.overlay.Marker;
 
 public class Maps extends AppCompatActivity {
     private MapView map;
@@ -35,8 +36,13 @@ public class Maps extends AppCompatActivity {
         MapEventsReceiver mapEventsReceiver = new MapEventsReceiver() {
             @Override
             public boolean singleTapConfirmedHelper(GeoPoint p) {
-                Toast.makeText(getApplicationContext(), "Latitud: " + p.getLatitude() +
-                        "Longitud: " + p.getLongitude(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),
+                        "Latitud: " + p.getLatitude() +
+                            "Longitud: " + p.getLongitude(), Toast.LENGTH_SHORT).show();
+                Marker marker = new Marker(map);
+                marker.setPosition(p);
+                marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+                map.getOverlays().add(marker);
                 return false;
             }
 
