@@ -13,15 +13,24 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.myapplication.DB.DBFirebase;
+import com.example.myapplication.DB.DBHelper;
 import com.example.myapplication.Entities.Producto;
+import com.example.myapplication.Home;
+import com.example.myapplication.Maps;
 import com.example.myapplication.Product;
+import com.example.myapplication.Crud;
 import com.example.myapplication.R;
+import com.example.myapplication.Services.ComeBackHome;
 
 import java.util.ArrayList;
 
-public class ProductAdapter extends BaseAdapter {
+public class ProductAdapter extends BaseAdapter implements ComeBackHome {
     private Context context;
     private ArrayList<Producto> arrayProducts;
+    private DBFirebase dbFirebase;
+    private DBHelper dbHelper;
+    ComeBackHome comeBackHome = this;
 
 
     public ProductAdapter(Context context,ArrayList<Producto> arrayProducts ) {
@@ -53,6 +62,9 @@ public class ProductAdapter extends BaseAdapter {
         Producto producto = arrayProducts.get(i);
 
         Button btnProductTemplate = (Button) v.findViewById(R.id.btnProductTemplate);
+        Button btnEdit = (Button) v.findViewById(R.id.btnEdit);
+        Button btnDelete =  (Button) v.findViewById(R.id.btnDelete);
+        Button btnLocation =  (Button) v.findViewById(R.id.btnLocation);
         ImageView imgProduct = (ImageView) v.findViewById(R.id.imgProduct);
         TextView textViewNam = (TextView) v.findViewById(R.id.textProductTitle);
         TextView textViewDes = (TextView) v.findViewById(R.id.textProductDes);
@@ -74,6 +86,54 @@ public class ProductAdapter extends BaseAdapter {
             }
         });
 
+        btnEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context.getApplicationContext(), Crud.class);
+                intent.putExtra("id", String.valueOf(producto.getIntId()));
+                intent.putExtra("metodo", "actualizar");
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+                Toast.makeText(context, "Presionado "+producto.getName(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String id = String.valueOf(producto.getIntId());
+                dbFirebase = new DBFirebase();
+                dbHelper = dbHelper = new DBHelper(context);
+
+                if(id.compareTo("") != 0) {
+                    //dbHelper.deleteDataById(id);
+                    dbFirebase.deleteDataById( id, producto.getId(), dbHelper, comeBackHome);
+                    //clean();
+                } else {
+                    Toast.makeText(context.getApplicationContext(),"ingrese Id a eliminar", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        btnLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context.getApplicationContext(), Maps.class);
+                intent.putExtra("latitud", String.valueOf(producto.getLatitud()));
+                intent.putExtra("longitud", String.valueOf(producto.getLongitud()));
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+                Toast.makeText(context, "Presionado "+producto.getName(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
         return v;
+
+    }
+    @Override
+    public void intentToHome() {
+        Intent intent = new Intent(context.getApplicationContext(), Home.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
     }
 }

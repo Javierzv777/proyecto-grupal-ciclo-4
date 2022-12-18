@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import org.osmdroid.config.Configuration;
@@ -22,13 +24,14 @@ public class Maps extends AppCompatActivity {
     private String imagen;
     private String nombre;
     private String descripcion;
+    private Button volver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         Configuration.getInstance().load(this, PreferenceManager.getDefaultSharedPreferences(this));
-
+        volver = findViewById(R.id.volver);
         map = (MapView) findViewById(R.id.map);
         map.setBuiltInZoomControls(true);
         mapController = (MapController) map.getController();
@@ -44,7 +47,14 @@ public class Maps extends AppCompatActivity {
         descripcion = intentIn.getStringExtra("descripcion");
 
 
-        if (consulta.compareTo("consulta")==0){
+        volver.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), Home.class);
+                startActivity(intent);
+            }
+        });
+        if (consulta != null){
             MapEventsReceiver mapEventsReceiver = new MapEventsReceiver() {
                 @Override
                 public boolean singleTapConfirmedHelper(GeoPoint p) {

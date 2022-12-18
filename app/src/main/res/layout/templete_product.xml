@@ -39,15 +39,41 @@
                     android:textSize="30dp"
                     android:text="" />
 
+            <Button
+                android:id="@+id/btnLocation"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/ic_baseline_location_on_24"
+                 />
 
 
         </LinearLayout>
 
-        <Button
-            android:id="@+id/btnProductTemplate"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Button" />
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btnProductTemplate"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+               android:background="@drawable/ic_baseline_remove_red_eye_24" />
+
+            <Button
+                android:id="@+id/btnEdit"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/ic_baseline_edit_24" />
+
+            <Button
+                android:id="@+id/btnDelete"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/ic_baseline_delete_forever_24" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

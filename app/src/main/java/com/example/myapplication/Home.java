@@ -44,6 +44,11 @@ public class Home extends AppCompatActivity {
             productService = new ProductService();
             Cursor cursor = dbHelper.getData();
             arrayProducts = productService.cursorToArray(cursor, getApplicationContext());
+            if (arrayProducts.size() == 0){
+                Intent intent = new Intent(getApplicationContext(), Crud.class);
+                intent.putExtra("metodo", "agregar");
+                startActivity(intent);
+            }
             Toast.makeText(this, "lectura OK", Toast.LENGTH_SHORT).show();
         }catch (Exception e){
             Toast.makeText(this, "Error lectura DB", Toast.LENGTH_SHORT).show();

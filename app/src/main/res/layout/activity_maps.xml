@@ -9,12 +9,12 @@
     android:gravity="center"
     tools:context=".Maps">
 
-    <TextView
-        android:id="@+id/textView"
+    <Button
+        android:id="@+id/volver"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="60dp"
-        android:text="Mapa" />
+        android:textSize="40dp"
+        android:text="Volver" />
 
     <org.osmdroid.views.MapView
         android:id="@+id/map"
