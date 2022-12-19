@@ -90,7 +90,7 @@ public class Crud extends AppCompatActivity implements ComeBackHome{
                     editFormName.setText(product.getName());
                     uuid = product.getId();
                     editLat.setText(String.valueOf(product.getLatitud()));
-                    editLon.setText(String.valueOf(product.getLatitud()));
+                    editLon.setText(String.valueOf(product.getLongitud()));
                     //formImage.setImageBitmap(productService.byteToBitmap(product.getImage()));
                 }else{
                     Toast.makeText(getApplicationContext(),"no existe", Toast.LENGTH_SHORT).show();
@@ -170,7 +170,7 @@ public class Crud extends AppCompatActivity implements ComeBackHome{
                 Intent intent = new Intent(getApplicationContext(), Maps.class);
 
 
-
+                intent.putExtra("id", id);
                 intent.putExtra("imagen", imagen );
                 intent.putExtra("nombre", editFormName.getText().toString());
                 intent.putExtra("descripcion", editFormDescription.getText().toString());

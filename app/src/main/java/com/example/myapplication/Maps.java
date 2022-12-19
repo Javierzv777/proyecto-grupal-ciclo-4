@@ -25,6 +25,7 @@ public class Maps extends AppCompatActivity {
     private String nombre;
     private String descripcion;
     private Button volver;
+    private String id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,12 +36,13 @@ public class Maps extends AppCompatActivity {
         map = (MapView) findViewById(R.id.map);
         map.setBuiltInZoomControls(true);
         mapController = (MapController) map.getController();
-        GeoPoint colombia = new GeoPoint(33.749000,-84.387980);
-        mapController.setCenter(colombia);
+        GeoPoint atlanta = new GeoPoint(33.749000,-84.387980);
+        mapController.setCenter(atlanta);
         mapController.setZoom(10);
         map.setMultiTouchControls(true);
        // Context context = getApplicationContext();
         Intent intentIn = getIntent();
+        id = intentIn.getStringExtra("id");
         String consulta = intentIn.getStringExtra("consulta");
         imagen = intentIn.getStringExtra("imagen");
         nombre = intentIn.getStringExtra("nombre");
@@ -58,17 +60,34 @@ public class Maps extends AppCompatActivity {
             MapEventsReceiver mapEventsReceiver = new MapEventsReceiver() {
                 @Override
                 public boolean singleTapConfirmedHelper(GeoPoint p) {
-                    Intent intent = new Intent(getApplicationContext(), FormActivity.class);
-                    String latitud = String.valueOf(p.getLatitude());
-                    String longitude = String.valueOf(p.getLongitude());
-                    intent.putExtra("latitud", latitud);
-                    intent.putExtra("longitud",  longitude);
-                    intent.putExtra("imagen", imagen);
-                    intent.putExtra("nombre",  nombre);
-                    intent.putExtra("descripcion",  descripcion);
+                    if(id != null) {
+                        Intent intent = new Intent(getApplicationContext(), Crud.class);
+                        String latitud = String.valueOf(p.getLatitude());
+                        String longitude = String.valueOf(p.getLongitude());
+                        intent.putExtra("id", id);
+                        intent.putExtra("latitud", latitud);
+                        intent.putExtra("longitud",  longitude);
+                        intent.putExtra("imagen", imagen);
+                        intent.putExtra("nombre",  nombre);
+                        intent.putExtra("descripcion",  descripcion);
+                        startActivity(intent);
+                    }else{
+                        Intent intent = new Intent(getApplicationContext(), FormActivity.class);
+                        String latitud = String.valueOf(p.getLatitude());
+                        String longitude = String.valueOf(p.getLongitude());
+                        intent.putExtra("id", id);
+                        intent.putExtra("latitud", latitud);
+                        intent.putExtra("longitud",  longitude);
+                        intent.putExtra("imagen", imagen);
+                        intent.putExtra("nombre",  nombre);
+                        intent.putExtra("descripcion",  descripcion);
+                        startActivity(intent);
+
+                    }
 
 
-                    startActivity(intent);
+
+
                     return false;
                 }
 
@@ -86,6 +105,9 @@ public class Maps extends AppCompatActivity {
 
                    if(latitud != 0 && longitud != 0) {
                        Toast.makeText(this, "ijaaaaa", Toast.LENGTH_SHORT).show();
+                       GeoPoint savedLocation = new GeoPoint(latitud,longitud);
+                       mapController.setCenter(savedLocation);
+                       mapController.setZoom(16);
                        GeoPoint geoPoint = new GeoPoint(latitud, longitud);
                        Marker marker = new Marker(map);
                        marker.setPosition(geoPoint);
