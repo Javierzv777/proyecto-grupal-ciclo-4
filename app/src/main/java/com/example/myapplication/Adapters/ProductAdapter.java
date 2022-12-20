@@ -74,22 +74,26 @@ public class ProductAdapter extends BaseAdapter implements ComeBackHome {
         TextView textViewDes = (TextView) v.findViewById(R.id.textProductDes);
 
         String imagen = producto.getImage();
-        try{
-            progressDialog = new ProgressDialog(viewGroup.getContext());
-            progressDialog.setTitle("Subiendo...");
-            progressDialog.setMessage("Subiendo imagen a firebase");
-            progressDialog.setCancelable(false);
-            progressDialog.show();
+
+
+
             if(!imagen.equals("")) {
+                try{
+                progressDialog = new ProgressDialog(viewGroup.getContext());
+                progressDialog.setTitle("Subiendo...");
+                progressDialog.setMessage("Subiendo imagen a firebase");
+                progressDialog.setCancelable(false);
+                progressDialog.show();
                 Picasso.with(viewGroup.getContext())
                         .load(imagen)
                         .resize(300, 300)
                         .into(imgProduct);
                 progressDialog.dismiss();
+                }catch(Exception e) {
+                    Log.e("Fatal error", e.toString());
+                }
             }
-        }catch(Exception e) {
-            Log.e("Fatal error", e.toString());
-        }
+
         textViewNam.setText(producto.getName());
         textViewDes.setText(producto.getDescription());
 
