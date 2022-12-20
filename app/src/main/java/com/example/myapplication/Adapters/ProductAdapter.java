@@ -1,9 +1,11 @@
 package com.example.myapplication.Adapters;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +24,7 @@ import com.example.myapplication.Product;
 import com.example.myapplication.Crud;
 import com.example.myapplication.R;
 import com.example.myapplication.Services.ComeBackHome;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -31,6 +34,7 @@ public class ProductAdapter extends BaseAdapter implements ComeBackHome {
     private DBFirebase dbFirebase;
     private DBHelper dbHelper;
     ComeBackHome comeBackHome = this;
+    private ProgressDialog progressDialog;
 
 
     public ProductAdapter(Context context,ArrayList<Producto> arrayProducts ) {
@@ -69,32 +73,45 @@ public class ProductAdapter extends BaseAdapter implements ComeBackHome {
         TextView textViewNam = (TextView) v.findViewById(R.id.textProductTitle);
         TextView textViewDes = (TextView) v.findViewById(R.id.textProductDes);
 
-        //byte[] image = producto.getImage();
-        //Bitmap bitmap = BitmapFactory.decodeByteArray(image, 0,image.length);
-       // imgProduct.setImageBitmap(bitmap);
+        String imagen = producto.getImage();
+        try{
+            progressDialog = new ProgressDialog(viewGroup.getContext());
+            progressDialog.setTitle("Subiendo...");
+            progressDialog.setMessage("Subiendo imagen a firebase");
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+            if(!imagen.equals("")) {
+                Picasso.with(viewGroup.getContext())
+                        .load(imagen)
+                        .resize(300, 300)
+                        .into(imgProduct);
+                progressDialog.dismiss();
+            }
+        }catch(Exception e) {
+            Log.e("Fatal error", e.toString());
+        }
         textViewNam.setText(producto.getName());
         textViewDes.setText(producto.getDescription());
 
         btnProductTemplate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context.getApplicationContext(), Product.class);
+                Intent intent = new Intent(viewGroup.getContext(), Product.class);
                 intent.putExtra("id", String.valueOf(producto.getIntId()));
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);
-                Toast.makeText(context, "Presionado"+producto.getName(), Toast.LENGTH_SHORT).show();
+                viewGroup.getContext().startActivity(intent);
+                Toast.makeText(viewGroup.getContext(), "Presionado"+producto.getName(), Toast.LENGTH_SHORT).show();
             }
         });
 
         btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context.getApplicationContext(), Crud.class);
+                Intent intent = new Intent(viewGroup.getContext(), Crud.class);
                 intent.putExtra("id", String.valueOf(producto.getIntId()));
                 intent.putExtra("metodo", "actualizar");
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);
-                Toast.makeText(context, "Presionado "+producto.getName(), Toast.LENGTH_SHORT).show();
+                viewGroup.getContext().startActivity(intent);
+                Toast.makeText(viewGroup.getContext(), "Presionado "+producto.getName(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -103,14 +120,14 @@ public class ProductAdapter extends BaseAdapter implements ComeBackHome {
             public void onClick(View view) {
                 String id = String.valueOf(producto.getIntId());
                 dbFirebase = new DBFirebase();
-                dbHelper = dbHelper = new DBHelper(context);
+                dbHelper = dbHelper = new DBHelper(viewGroup.getContext());
 
                 if(id.compareTo("") != 0) {
                     //dbHelper.deleteDataById(id);
                     dbFirebase.deleteDataById( id, producto.getId(), dbHelper, comeBackHome);
                     //clean();
                 } else {
-                    Toast.makeText(context.getApplicationContext(),"ingrese Id a eliminar", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(viewGroup.getContext().getApplicationContext(),"ingrese Id a eliminar", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -118,11 +135,11 @@ public class ProductAdapter extends BaseAdapter implements ComeBackHome {
         btnLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context.getApplicationContext(), Maps.class);
+                Intent intent = new Intent(viewGroup.getContext().getApplicationContext(), Maps.class);
                 intent.putExtra("latitud", String.valueOf(producto.getLatitud()));
                 intent.putExtra("longitud", String.valueOf(producto.getLongitud()));
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);
+                viewGroup.getContext().startActivity(intent);
                 Toast.makeText(context, "Presionado "+producto.getName(), Toast.LENGTH_SHORT).show();
             }
         });

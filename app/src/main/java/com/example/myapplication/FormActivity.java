@@ -1,11 +1,11 @@
 package com.example.myapplication;
 
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,9 +22,16 @@ import com.example.myapplication.DB.DBHelper;
 import com.example.myapplication.Entities.Producto;
 import com.example.myapplication.Services.ComeBackHome;
 import com.example.myapplication.Services.ProductService;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class FormActivity extends AppCompatActivity implements ComeBackHome{
     private ProductService productService;
@@ -38,7 +45,10 @@ public class FormActivity extends AppCompatActivity implements ComeBackHome{
     private TextView editLat, editLon;
     private Button mapForm;
     private String imagen;
-
+    private FirebaseStorage storage;
+    private StorageReference storageRef;
+    private static final int GALLERY_INTENT = 1;
+    private ProgressDialog progressDialog;
 
     ActivityResultLauncher<String> content;
     @SuppressLint("MissingInflatedId")
@@ -58,11 +68,32 @@ public class FormActivity extends AppCompatActivity implements ComeBackHome{
         editLon = (EditText) findViewById(R.id.editLon);
         mapForm = (Button) findViewById(R.id.mapForm);
         imagen = "";
+        storage = FirebaseStorage.getInstance("gs://ciclo4-3f107.appspot.com");
+        storageRef = storage.getReference();
+        progressDialog = new ProgressDialog(this);
 
+        StorageReference pathReference = storageRef.child("images/stars.jpg");
         Intent intentIn = getIntent();
         editFormName.setText( intentIn.getStringExtra("nombre")) ;
         editFormDescription.setText(intentIn.getStringExtra("descripcion"));
         imagen = intentIn.getStringExtra("imagen");
+        progressDialog.setTitle("Subiendo...");
+        progressDialog.setMessage("Subiendo imagen a firebase");
+        progressDialog.setCancelable(false);
+
+        try{
+            if(!imagen.equals("")) {
+                progressDialog.show();
+                Toast.makeText(getApplicationContext(),"cargando foto", Toast.LENGTH_SHORT).show();
+                Picasso.with(getApplicationContext())
+                        .load(imagen)
+                        .resize(300, 300)
+                        .into(formImage);
+                progressDialog.dismiss();
+            }
+        }catch(Exception e) {
+            Log.e("Fatal error", e.toString());
+        }
 
         Intent intent = getIntent();
         if(intent != null) {
@@ -84,19 +115,14 @@ public class FormActivity extends AppCompatActivity implements ComeBackHome{
         }
         byte[] img = "".getBytes(StandardCharsets.UTF_8);
 
-        content = registerForActivityResult(
-                new ActivityResultContracts.GetContent(),
-                new ActivityResultCallback<Uri>() {
-                    @Override
-                    public void onActivityResult(Uri result) {
-                        formImage.setImageURI(result);
-                    }
-                }
-        );
+
         formImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                content.launch("image/*");
+                Intent intent = new Intent (Intent.ACTION_PICK);
+                intent.setType( "image/*");
+                startActivityForResult(intent, GALLERY_INTENT);
+
             }
         });
         btnFormProduct.setOnClickListener(new View.OnClickListener() {
@@ -108,7 +134,7 @@ public class FormActivity extends AppCompatActivity implements ComeBackHome{
                     Producto product = new Producto(
                             editFormName.getText().toString(),
                             editFormDescription.getText().toString(),
-                            "",
+                            imagen,
                             Double.parseDouble(editLat.getText().toString().trim()),
                             Double.parseDouble(editLon.getText().toString().trim())
                            //    productService.imageviewToByte(formImage)
@@ -186,12 +212,7 @@ public class FormActivity extends AppCompatActivity implements ComeBackHome{
             public void onClick(View view) {
                 String id = editIdFormProduct.getText().toString().trim();
                 if(id.compareTo("") != 0 && uuid.compareTo("") != 0) {
-                  /*  dbHelper.updateDataById(
-                            id,
-                            editFormName.getText().toString(),
-                            editFormDescription.getText().toString(),
-                            productService.imageviewToByte(formImage));
-                            */
+
                     dbFirebase.updateDataById(
                             id,
                             uuid,
@@ -207,10 +228,54 @@ public class FormActivity extends AppCompatActivity implements ComeBackHome{
             }
 
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == GALLERY_INTENT && resultCode == RESULT_OK){
+            progressDialog.setTitle("Subiendo...");
+            progressDialog.setMessage("Subiendo imagen a firebase");
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+            Uri uri = data.getData();
+            //formImage.setImageURI(uri);
+            StorageReference filePath = storageRef.child("fotos").child(uri.getLastPathSegment());
+            filePath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                    Task<Uri> subirFoto = taskSnapshot.getStorage().getDownloadUrl();
+
+                        subirFoto.addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+
+                                imagen = uri.toString();
+                                try{
+                                    if(!imagen.equals("")) {
+                                        Toast.makeText(getApplicationContext(),"cargando foto", Toast.LENGTH_SHORT).show();
+                                        Picasso.with(getApplicationContext())
+                                                .load(imagen)
+                                                .resize(300, 300)
+                                                .into(formImage);
+                                        progressDialog.dismiss();
+                                    }
+                                }catch(Exception e) {
+                                    Log.e("Fatal error", e.toString());
+                                }
 
 
+                            }
+                        });
+
+                    Toast.makeText(getApplicationContext(), "se subio la foto", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
 
     }
+
     public void clean (){
         editFormDescription.setText("");
         editFormName.setText("");
