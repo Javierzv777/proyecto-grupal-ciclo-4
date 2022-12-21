@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Top Locations</string>
     //string main activity
-    <string name="btn_init">Let's go!</string>
+    <string name="btn_init">Let\'s go!</string>
     //string home
     <string name="btn_info_product1">Info</string>
     <string name="btn_info_product2">Info</string>
@@ -21,6 +21,10 @@
     <string name="lon">Long.</string>
     <string name="lat">Lat.</string>
     <string name="btnFormProduct">AGREGAR</string>
+    // Activity Form
+    <string name="btnGet">GET</string>
+    <string name="btnUpdate">UPDATE</string>
+    <string name="btnDelete">DELETE</string>
 
 
 
