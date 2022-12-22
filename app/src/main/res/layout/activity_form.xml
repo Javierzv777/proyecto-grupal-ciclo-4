@@ -120,10 +120,14 @@
             android:id="@+id/textHint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="< Localizar"
+            android:hint="Localizar"
             android:textSize="18sp"
-            tools:layout_editor_absoluteX="272dp"
-            tools:layout_editor_absoluteY="431dp" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.866"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.55" />
 
         <TextView
             android:id="@+id/idFormName"
@@ -205,8 +209,11 @@
             android:fontFamily="@font/rubik"
             android:hint="id"
             android:inputType="number"
-            tools:layout_editor_absoluteX="17dp"
-            tools:layout_editor_absoluteY="412dp" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.075"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/editFormDescription"
