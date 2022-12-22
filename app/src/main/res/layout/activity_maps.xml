@@ -13,8 +13,10 @@
         android:id="@+id/volver"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="40dp"
-        android:text="Volver" />
+        android:layout_marginTop="20dp"
+        android:background="@drawable/radius"
+        android:text="Volver"
+        android:textSize="30dp" />
 
     <org.osmdroid.views.MapView
         android:id="@+id/map"

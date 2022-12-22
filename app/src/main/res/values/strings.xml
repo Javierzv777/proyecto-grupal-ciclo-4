@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">Ok Taxi</string>
+    <string name="app_name">Top Locations</string>
     //string main activity
-    <string name="btn_init">Home</string>
+    <string name="btn_init">Let\'s go!</string>
     //string home
     <string name="btn_info_product1">Info</string>
     <string name="btn_info_product2">Info</string>
@@ -13,6 +13,19 @@
     //string product
     <string name="btn_info_product">Volver</string>
     <string name="title_activity_maps_google">MapsGoogle</string>
+
+    //Strings >> CRUD Form
+    <string name="textView3">Comparte tu lugar favorito!</string>
+    <string name="idFormName">Lugar</string>
+    <string name="idFormDescription">Descripción: </string>
+    <string name="lon">Long.</string>
+    <string name="lat">Lat.</string>
+    <string name="btnFormProduct">AGREGAR</string>
+    // Activity Form
+    <string name="btnGet">GET</string>
+    <string name="btnUpdate">UPDATE</string>
+    <string name="btnDelete">DELETE</string>
+
 
 
 </resources>
