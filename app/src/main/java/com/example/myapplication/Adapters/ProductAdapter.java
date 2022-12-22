@@ -43,7 +43,6 @@ public class ProductAdapter extends BaseAdapter implements ComeBackHome {
     private DBHelper dbHelper;
     ComeBackHome comeBackHome = this;
     public ProgressDialog progressDialog;
-    private ProgressBar progressBar;
 
 
     public ProductAdapter(Context context,ArrayList<Producto> arrayProducts ) {
@@ -75,7 +74,6 @@ public class ProductAdapter extends BaseAdapter implements ComeBackHome {
 
         Producto producto = arrayProducts.get(i);
 
-        progressBar = (ProgressBar) v.findViewById(R.id.progressBar);
         Button btnProductTemplate = (Button) v.findViewById(R.id.btnProductTemplate);
         Button btnEdit = (Button) v.findViewById(R.id.btnEdit);
         Button btnDelete =  (Button) v.findViewById(R.id.btnDelete);
@@ -101,7 +99,6 @@ public class ProductAdapter extends BaseAdapter implements ComeBackHome {
                             public void onSuccess() {
                                 textViewNam.setText(producto.getName());
                                 textViewDes.setText(producto.getDescription());
-                                progressBar.setVisibility(View.GONE);
 
 
                             }
@@ -110,7 +107,6 @@ public class ProductAdapter extends BaseAdapter implements ComeBackHome {
                             public void onError() {
                                 textViewNam.setText(producto.getName());
                                 textViewDes.setText(producto.getDescription());
-                                progressBar.setVisibility(View.GONE);
                             }
                         });
 
@@ -120,12 +116,10 @@ public class ProductAdapter extends BaseAdapter implements ComeBackHome {
 
                 }catch(Exception e) {
                     Log.e("Fatal error", e.toString());
-                    progressBar.setVisibility(View.GONE);
                 }
 
                 try {
                     Thread.sleep(200 );
-                    progressBar.setVisibility(View.GONE);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

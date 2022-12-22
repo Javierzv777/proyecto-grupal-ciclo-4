@@ -87,7 +87,8 @@ public class Home extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.actionAdd:
-                Intent intent = new Intent(getApplicationContext(), FormActivity.class);
+                Intent intent = new Intent(getApplicationContext(), Crud.class);
+                intent.putExtra("metodo", "agregar" );
                 startActivity(intent);
                 return true;
             default:

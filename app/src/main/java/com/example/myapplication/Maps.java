@@ -26,6 +26,7 @@ public class Maps extends AppCompatActivity {
     private String descripcion;
     private Button volver;
     private String id;
+    private String metodo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +48,10 @@ public class Maps extends AppCompatActivity {
         imagen = intentIn.getStringExtra("imagen");
         nombre = intentIn.getStringExtra("nombre");
         descripcion = intentIn.getStringExtra("descripcion");
-
+        metodo = intentIn.getStringExtra("metodo");
+        if (metodo.equals("actualizar")) {
+            metodo = "actualizarLocation";
+        }
 
         volver.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,6 +68,7 @@ public class Maps extends AppCompatActivity {
                         Intent intent = new Intent(getApplicationContext(), Crud.class);
                         String latitud = String.valueOf(p.getLatitude());
                         String longitude = String.valueOf(p.getLongitude());
+                        intent.putExtra("metodo", metodo );
                         intent.putExtra("id", id);
                         intent.putExtra("latitud", latitud);
                         intent.putExtra("longitud",  longitude);
@@ -72,9 +77,10 @@ public class Maps extends AppCompatActivity {
                         intent.putExtra("descripcion",  descripcion);
                         startActivity(intent);
                     }else{
-                        Intent intent = new Intent(getApplicationContext(), FormActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), Crud.class);
                         String latitud = String.valueOf(p.getLatitude());
                         String longitude = String.valueOf(p.getLongitude());
+                        intent.putExtra("metodo", metodo);
                         intent.putExtra("id", id);
                         intent.putExtra("latitud", latitud);
                         intent.putExtra("longitud",  longitude);
@@ -104,7 +110,7 @@ public class Maps extends AppCompatActivity {
                    Double longitud = Double.parseDouble(intent.getStringExtra("longitud"));
 
                    if(latitud != 0 && longitud != 0) {
-                       Toast.makeText(this, "ijaaaaa", Toast.LENGTH_SHORT).show();
+
                        GeoPoint savedLocation = new GeoPoint(latitud,longitud);
                        mapController.setCenter(savedLocation);
                        mapController.setZoom(16);
@@ -114,12 +120,6 @@ public class Maps extends AppCompatActivity {
                        marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
                        map.getOverlays().add(marker);
                    }
-
-
-
-
-
-
 
 
 
