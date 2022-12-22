@@ -6,44 +6,54 @@
     android:layout_height="match_parent"
     tools:context=".Product">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical">
+    <TextView
+        android:id="@+id/textProductTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Txt Lugar"
+        android:textSize="38dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.117" />
 
-        <TextView
-            android:id="@+id/textProductTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="60dp"
-             />
+    <ImageView
+        android:id="@+id/imgProduct"
+        android:layout_width="305dp"
+        android:layout_height="305dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.354"
+        tools:srcCompat="@tools:sample/avatars" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="vertical">
+    <TextView
+        android:id="@+id/textProductDes"
+        android:layout_width="304dp"
+        android:layout_height="115dp"
+        android:text="TextDescr"
+        android:textSize="25dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.528"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.761" />
 
-            <ImageView
-                android:id="@+id/imgProduct"
-                android:layout_width="300dp"
-                android:layout_height="300dp"
-                tools:srcCompat="@tools:sample/avatars" />
+    <Button
+        android:id="@+id/btnProductInfo"
+        android:layout_width="120dp"
+        android:layout_height="57dp"
+        android:background="@drawable/radius"
+        android:fontFamily="@font/rubik"
+        android:text="@string/btnProductInfo"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.912" />
 
-            <TextView
-                android:id="@+id/textProductDes"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="25dp"
-                android:text="TextView" />
-
-            <Button
-                android:id="@+id/btnProductInfo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Volver" />
-
-        </LinearLayout>
-    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

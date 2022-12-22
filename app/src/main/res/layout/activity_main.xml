@@ -8,15 +8,17 @@
 
     <Button
         android:id="@+id/btnInit"
-        android:layout_width="147dp"
-        android:layout_height="79dp"
+        android:layout_width="150dp"
+        android:layout_height="68dp"
+        android:background="@drawable/radius"
         android:text="@string/btn_init"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.742" />
+        app:layout_constraintVertical_bias="0.741" />
 
     <ImageView
         android:id="@+id/imageView3"
