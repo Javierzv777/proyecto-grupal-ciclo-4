@@ -213,15 +213,15 @@ public class FormActivity extends AppCompatActivity implements ComeBackHome{
                 String id = editIdFormProduct.getText().toString().trim();
                 if(id.compareTo("") != 0 && uuid.compareTo("") != 0) {
 
-                    dbFirebase.updateDataById(
+                /*    dbFirebase.updateDataById(
                             id,
                             uuid,
                             editFormName.getText().toString(),
                             editFormDescription.getText().toString(),
-                            //productService.imageviewToByte(formImage),
+                            imagen,
                             dbHelper,
                             comeBackHome);
-
+*/
                 }
                 //clean();
 
