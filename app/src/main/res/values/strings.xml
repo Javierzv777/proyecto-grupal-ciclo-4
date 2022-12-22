@@ -9,13 +9,13 @@
     <string name="text_product1">Bogotá</string>
     <string name="text_product2">Medellín</string>
     <string name="text_product3">Cali</string>
-    <string name="btn_text_home">Direcciones</string>
+    <string name="btn_text_home">Ubicaciones</string>
     //string product
     <string name="btn_info_product">Volver</string>
     <string name="title_activity_maps_google">MapsGoogle</string>
 
     //Strings >> CRUD Form
-    <string name="textView3">Comparte tu lugar favorito!</string>
+    <string name="textView3">¡Comparte tu lugar favorito!</string>
     <string name="idFormName">Lugar</string>
     <string name="idFormDescription">Descripción: </string>
     <string name="lon">Long.</string>
@@ -25,6 +25,8 @@
     <string name="btnGet">GET</string>
     <string name="btnUpdate">UPDATE</string>
     <string name="btnDelete">DELETE</string>
+    //Activity Product Volver
+    <string name="btnProductInfo">VOLVER</string>
 
 
 
