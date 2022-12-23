@@ -98,6 +98,7 @@ public class Crud extends AppCompatActivity implements ComeBackHome{
         String latitud = intent.getStringExtra("latitud");
         String longitud = intent.getStringExtra("longitud");
         String id = intent.getStringExtra("id");
+        uuid = intent.getStringExtra("uuid");
 
 
 
@@ -107,36 +108,42 @@ public class Crud extends AppCompatActivity implements ComeBackHome{
                 editLat.setText(latitud);
                 editLon.setText(longitud);
             }
-
-        Cursor cursor = dbHelper.getDataById(id);
-        if(cursor != null && metodo.equals("actualizar")){
+        if(id != null && uuid == null) {
+            Cursor cursor = dbHelper.getDataById(id);
+            if (cursor != null && metodo.equals("actualizar")) {
                 ArrayList<Producto> list = productService.cursorToArray(cursor, getApplicationContext());
 
-                if(list.size() != 0){
+                if (list.size() != 0) {
                     Producto product = list.get(0);
                     editFormDescription.setText(product.getDescription());
                     editFormName.setText(product.getName());
                     uuid = product.getId();
-                    editLat.setText(String.valueOf(product.getLatitud()));
-                    editLon.setText(String.valueOf(product.getLongitud()));
+                    if(latitud == null && longitud == null) {
+                        editLat.setText(String.valueOf(product.getLatitud()));
+                        editLon.setText(String.valueOf(product.getLongitud()));
+                    } else {
+                        editLat.setText(latitud);
+                        editLon.setText(longitud);
+                    }
                     imagen = product.getImage();
                     //formImage.setImageBitmap(productService.byteToBitmap(product.getImage()));
-                    try{
-                        if(!imagen.equals("")) {
-                            Toast.makeText(getApplicationContext(),"cargando foto", Toast.LENGTH_SHORT).show();
+                    try {
+                        if (!imagen.equals("")) {
+                            Toast.makeText(getApplicationContext(), "cargando foto", Toast.LENGTH_SHORT).show();
                             Picasso.with(getApplicationContext())
                                     .load(imagen)
                                     .resize(300, 300)
                                     .into(formImage);
                         }
-                    }catch(Exception e) {
+                    } catch (Exception e) {
                         Log.e("Fatal error", e.toString());
                     }
 
-                }else{
-                    Toast.makeText(getApplicationContext(),"no existe", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "no existe", Toast.LENGTH_SHORT).show();
                 }
             }
+        }
             if(metodo != null) {
                 if(metodo.equals("agregar")) {
                     btnFormProduct.setText("Agregar");
@@ -157,30 +164,7 @@ public class Crud extends AppCompatActivity implements ComeBackHome{
         }catch (Exception e){
             Log.e("error db", e.toString());
         }
-        //byte[] img = "".getBytes(StandardCharsets.UTF_8);
 
-        /*content = registerForActivityResult(
-                new ActivityResultContracts.GetContent(),
-                new ActivityResultCallback<Uri>() {
-                    @Override
-                    public void onActivityResult(Uri result) {
-                        imagen = result.toString();
-                        try{
-                            if(!imagen.equals("")) {
-                                Toast.makeText(getApplicationContext(),"cargando foto", Toast.LENGTH_SHORT).show();
-                                Picasso.with(getApplicationContext())
-                                        .load(imagen)
-                                        .resize(300, 300)
-                                        .into(formImage);
-
-                            }
-                        }catch(Exception e) {
-                            Log.e("Fatal error", e.toString());
-                        }
-                     //   formImage.setImageURI(result);
-                    }
-                }
-        );*/
         formImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -227,23 +211,19 @@ public class Crud extends AppCompatActivity implements ComeBackHome{
                     public void onClick(View view) {
 
                         if(id.compareTo("") != 0 && uuid.compareTo("") != 0) {
-                  /*  dbHelper.updateDataById(
-                            id,
-                            editFormName.getText().toString(),
-                            editFormDescription.getText().toString(),
-                            productService.imageviewToByte(formImage));
-                            */
+
                             dbFirebase.updateDataById(
                                     id,
                                     uuid,
                                     editFormName.getText().toString(),
                                     editFormDescription.getText().toString(),
                                     imagen,
+                                    Double.parseDouble(editLat.getText().toString()),
+                                    Double.parseDouble(editLon.getText().toString()),
                                     dbHelper,
                                     comeBackHome);
 
                         }
-                        //clean();
 
                     }
 
@@ -286,6 +266,7 @@ public class Crud extends AppCompatActivity implements ComeBackHome{
 
                 intent.putExtra("metodo", metodo);
                 intent.putExtra("id", id);
+                intent.putExtra("uuid", uuid);
                 intent.putExtra("imagen", imagen );
                 intent.putExtra("nombre", editFormName.getText().toString());
                 intent.putExtra("descripcion", editFormDescription.getText().toString());

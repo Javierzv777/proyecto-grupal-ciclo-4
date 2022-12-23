@@ -92,11 +92,13 @@ public class DBHelper extends SQLiteOpenHelper {
         //sqLiteDatabase.execSQL("DELETE FROM PRODUCTS WHERE id =" + id);
     }
 
-    public void updateDataById(String id, String name, String description, String image, Boolean forUpdate ){
+    public void updateDataById(String id, String name, String description, String image, Double latitud, Double longitud, Boolean forUpdate ){
         ContentValues contentValues = new ContentValues();
         contentValues.put("name", name);
         contentValues.put("description", description);
         contentValues.put("img", image);
+        contentValues.put("latitud", Double.toString(latitud));
+        contentValues.put("longitud", Double.toString(longitud));
         contentValues.put("forUpdate", forUpdate);
         contentValues.put("updatedAt", String.valueOf(new Date()));
         sqLiteDatabase.update("PRODUCTS", contentValues, "id = ?", new String[]{id});

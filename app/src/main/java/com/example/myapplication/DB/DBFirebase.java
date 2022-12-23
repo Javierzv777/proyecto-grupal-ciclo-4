@@ -263,21 +263,21 @@ public class DBFirebase {
                 });
     }
 
-    public void updateDataById(String id, String uuid, String name, String description, String imagen, DBHelper dbHelper, ComeBackHome comeBackHome) {
+    public void updateDataById(String id, String uuid, String name, String description, String imagen, Double latitud, Double longitud, DBHelper dbHelper, ComeBackHome comeBackHome) {
         db.collection("products")
                 .document(uuid)
-                .update("name",name, "description", description, "imagen", imagen, "updatedAt", new Date())
+                .update("name",name, "description", description, "imagen", imagen, "latitud", latitud, "longitud", longitud, "updatedAt", new Date())
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        dbHelper.updateDataById(id, name, description, imagen, false);
+                        dbHelper.updateDataById(id, name, description, imagen, latitud, longitud, false);
                         comeBackHome.intentToHome();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        dbHelper.updateDataById(id, name, description,  imagen,true);
+                        dbHelper.updateDataById(id, name, description,  imagen, latitud, longitud,true);
                         comeBackHome.intentToHome();
                     }
                 });
