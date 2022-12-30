@@ -9,13 +9,17 @@
     android:orientation="vertical"
     tools:context=".Crud">
 
+    <include
+        layout="@layout/custom_toolbar"/>
+
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/textView3"
-        android:textSize="30dp"
+        android:textAlignment="viewStart"
+        android:textSize="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.515"
@@ -183,12 +187,13 @@
         android:layout_height="54dp"
         android:background="@drawable/radius"
         android:text="@string/btnFormProduct"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.937" />
+        app:layout_constraintVertical_bias="0.957" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

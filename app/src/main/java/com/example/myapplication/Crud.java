@@ -6,6 +6,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -36,7 +37,7 @@ import com.squareup.picasso.Picasso;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
-public class Crud extends AppCompatActivity implements ComeBackHome{
+public class Crud extends OptionsMenuActivity implements ComeBackHome{
     private ProductService productService;
     private DBFirebase dbFirebase;
     private DBHelper dbHelper;
@@ -52,6 +53,7 @@ public class Crud extends AppCompatActivity implements ComeBackHome{
     private FirebaseStorage storage;
     private StorageReference storageRef;
     private static final int GALLERY_INTENT = 1;
+    private Toolbar ourToolbar;
 
 
     ActivityResultLauncher<String> content;
@@ -73,6 +75,9 @@ public class Crud extends AppCompatActivity implements ComeBackHome{
         dbHelper = new DBHelper(this);
         storage = FirebaseStorage.getInstance("gs://ciclo4-3f107.appspot.com");
         storageRef = storage.getReference();
+
+        ourToolbar = findViewById(R.id.custom_toolbar);
+        setSupportActionBar(ourToolbar);
 
 
         Intent intentIn = getIntent();
