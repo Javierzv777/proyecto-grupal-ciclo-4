@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 
 import android.content.Intent;
@@ -24,19 +25,25 @@ import java.util.ArrayList;
 
 
 
-public class Home extends AppCompatActivity {
+public class Home extends OptionsMenuActivity {
     private DBHelper dbHelper;
     private DBFirebase dbFirebase;
     private ProductService productService;
     private ListView listViewProducts;
     private ArrayList<Producto> arrayProducts;
     private ProductAdapter productAdapter;
+    private Toolbar ourToolbar;
+
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         arrayProducts =  new ArrayList<>();
+
+        ourToolbar = findViewById(R.id.custom_toolbar);
+        setSupportActionBar(ourToolbar);
 
         try {
             dbHelper = new DBHelper(this);
@@ -79,8 +86,10 @@ public class Home extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
+        getMenuInflater().inflate(R.menu.menu_all, menu);
         return true;
+
+
     }
 
     @Override

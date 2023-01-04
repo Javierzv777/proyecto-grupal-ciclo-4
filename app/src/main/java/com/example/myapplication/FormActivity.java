@@ -3,6 +3,7 @@ package com.example.myapplication;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
@@ -33,7 +34,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class FormActivity extends AppCompatActivity implements ComeBackHome{
+public class FormActivity extends OptionsMenuActivity implements ComeBackHome{
     private ProductService productService;
     private DBFirebase dbFirebase;
     private DBHelper dbHelper;
@@ -49,13 +50,14 @@ public class FormActivity extends AppCompatActivity implements ComeBackHome{
     private StorageReference storageRef;
     private static final int GALLERY_INTENT = 1;
     private ProgressDialog progressDialog;
+    private Toolbar ourToolbar;
 
     ActivityResultLauncher<String> content;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_form);
+        setSupportActionBar(ourToolbar);
         btnFormProduct = (Button) findViewById(R.id.btnFormProduct);
         btnGet = (Button) findViewById(R.id.btnGet);
         btnUpdate = (Button) findViewById(R.id.btnUpdate);
@@ -71,6 +73,9 @@ public class FormActivity extends AppCompatActivity implements ComeBackHome{
         storage = FirebaseStorage.getInstance("gs://ciclo4-3f107.appspot.com");
         storageRef = storage.getReference();
         progressDialog = new ProgressDialog(this);
+
+        setContentView(R.layout.activity_form);
+        ourToolbar = findViewById(R.id.custom_toolbar);
 
         StorageReference pathReference = storageRef.child("images/stars.jpg");
         Intent intentIn = getIntent();
